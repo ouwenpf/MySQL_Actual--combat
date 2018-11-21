@@ -13,8 +13,13 @@
 	- [权限管理](账户管理.md#权限管理)
 		- [grant授权](账户管理.md#grant授权)
 		- [revoke回收](账户管理.md#revoke回收)
-	- MySQL常用Client命令及GUI工具推荐
-	- 实战部分
-		- 用户名忘记了怎么处理
-		- 实际工作中用户名和密码这块需要注意什么
-	- 账号安全
+	- 
+	- [5.7目录结构](Data_dir.md#5.7目录结构)
+		- [日志文件](Data_dir.md#日志文件)
+			- [错误日志](Data_dir.md#错误日志)
+			- [慢查询日志](Data_dir.md#慢查询日志)
+			- [二进制日志](Data_dir.md#二进制日志)
+			- [审计日志](Data_dir.md#审计日志)
+			- [核心命令](Data_dir.md#核心命令)
+		- [MySQL裁剪](Data_dir.md#MySQL裁剪)
+		
