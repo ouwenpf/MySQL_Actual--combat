@@ -73,3 +73,18 @@
 ## MySQL裁剪
 适用场景：物联网做盒子的企业都需要用到MySQL裁剪
 - strip mysqld/mysql一条核心的命令即可，就这么点东西
+
+## sysbech压力测试工具
+
+```bash
+yum -y install  make automake libtool pkgconfig libaio-devel vim-common
+git clone https://github.com/akopytov/sysbench.git
+./autogen.sh
+./configure
+make && make install
+sysbench /usr/local/share/sysbench/oltp_read_write.lua --mysql-host=172.18.0.11 --mysql-port=3306 --mysql-user=sysbensh --mysql-password=123456 --mysql-db=zst --tables=10 --table_size=100000 --mysql_storage_engine=Innodb cleanup
+
+sysbench /usr/local/share/sysbench/oltp_read_write.lua --mysql-host=172.18.0.11 --mysql-port=3306 --mysql-user=sysbensh --mysql-password=123456 --mysql-db=zst --tables=10 --table_size=100000 --mysql_storage_engine=Innodb prepare
+
+sysbench /usr/local/share/sysbench/oltp_read_write.lua  --mysql-host=172.18.0.11 --mysql-port=3306 --mysql-user=sysbensh --mysql-password=123456 --mysql-db=zst --tables=10 --table_size=100000 --mysql_storage_engine=Innodb --threads=10 --time=3600 --warmup-time=100 --report-interval=10 --rand-type=uniform run
+```
