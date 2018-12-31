@@ -59,11 +59,15 @@ GTID：为每个事务进行唯一的编号
 
 # 半同步
 
+MySQL5.5和5.6中使用的机制  
 ![](images/复制技术变革2.jpg)  
 
 
 
-
+**出现问题**：同一个时刻在主从读取的数据不一样(数据不一致性读 ) [事务隔离级别](https://blog.csdn.net/qq_34569497/article/details/79064208)  
+![](images/复制技术变革3.jpg) 
 
 # 增强半同步
-
+mysql5.7中，淘宝周振兴提出  
+![](images/复制技术变革4.jpg)  
+mysql起来扫描redo，看处于prepare状态的Xid，拿到Xid去扫描最后一个binlog，存在，则该事务已经写完binlog，只不过还没有来得及写binlog filename position到redo，直接commit；否则就没有写完binlog就回滚
