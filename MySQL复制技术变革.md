@@ -60,14 +60,32 @@ GTID：为每个事务进行唯一的编号
 # 半同步
 
 MySQL5.5和5.6中使用的机制  
+- SQL处理
+- 引擎层处理
+- 写入binlog
+- 引擎层提交(此时不给客户端返回)
+- 保证日志传到slave上再给客户端返回
 ![](images/复制技术变革2.jpg)  
 
 
 
-**出现问题**：同一个时刻在主从读取的数据不一样(数据不一致性读 ) [事务隔离级别](https://blog.csdn.net/qq_34569497/article/details/79064208)  
-![](images/复制技术变革3.jpg) 
+**出现问题**：同一个时刻在主从读取的数据不一样([数据不一致性读](https://blog.csdn.net/qq_34569497/article/details/79064208))，官方为了解决这个问题，推出了增强半同步  
+![](images/复制技术变革3.jpg)
 
 # 增强半同步
-mysql5.7中，淘宝周振兴提出  
+
+最早由淘宝周振兴提出  
+增强半同步特性  
+- 技术上去掉了幻读
+- 同时在MySQL5.7.4后引入了Fast Semi-sync Replication
+但增强半同步依然存在数据不一致的情况  
 ![](images/复制技术变革4.jpg)  
-mysql起来扫描redo，看处于prepare状态的Xid，拿到Xid去扫描最后一个binlog，存在，则该事务已经写完binlog，只不过还没有来得及写binlog filename position到redo，直接commit；否则就没有写完binlog就回滚
+mysql起来扫描redo，看处于prepare状态的Xid，拿到Xid去扫描最后一个binlog，存在，则该事务已经写完binlog，只不过还没有来得及写binlog filename position到redo，直接commit；否则就没有写完binlog就回滚  
+![](images/复制技术变革5.jpg) 
+
+
+
+
+
+[其它参考](https://www.jianshu.com/p/c46cf46beff7)
+
