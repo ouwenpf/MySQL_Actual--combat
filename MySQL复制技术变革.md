@@ -96,8 +96,10 @@ Innodb在有Binlog时写入流程：
 
 Mysql Crash Recovery机制：
 1. mysql起来扫描redo，看处于prepare状态的Xid
-2. 拿到Xid去扫描最后一个binlog看Xid是否存在；存在，则该事务已经写完binlog，只不过还没有来得及写binlog filename position到redo，直接commit；否则就没有写完binlog就回滚  
-![](images/复制技术变革4.jpg) 
+2. 拿到Xid去扫描最后一个binlog看Xid是否存在；存在，则该事务已经写完binlog，只不过还没有来得及写binlog filename position到redo，直接commit；否则就没有写完binlog就回滚    
+
+![](images/复制技术变革4.jpg)   
+
 增强半同步数据不一致的地方  
 - **表现在多一个事务多一条数据**   
 - 主从同步没有解决此问题
