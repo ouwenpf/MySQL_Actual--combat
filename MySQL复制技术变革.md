@@ -100,11 +100,11 @@ Mysql Crash Recovery机制：
 
 ![](images/复制技术变革4.jpg)   
 
-增强半同步数据不一致的地方  
+**增强半同步数据不一致的地方**   
 - **表现在多一个事务多一条数据**   
 - 主从同步没有解决此问题
 - MGR处理的方法：没有复制过去的Binlog Event给truncate掉(跟客户端没有相应的事务，叫做不完整的事务，删除是没有任何问题)，MGR先查询自己传递过去的GTID，然后再去查询本地GTID，对比一下本地是否比远程的多，如果多就把本地多余的GTID给truncate掉，保证本地和远程是一致的  
-![](images/复制技术变革5.jpg) 
+
 
 # 半同步会不会有延迟
 
@@ -116,15 +116,26 @@ Mysql Crash Recovery机制：
 - dump thread
 - IO_thread
 - SQL_thread
+	- 基于database级别并行(mysql 5.6)
+	- 基于事务级别并行(mysql 5.7)
+		- binlog group commit
+	- 基于行级别并行(writeset实现MySQL8.0)
 
 只是保证主库上提交的事务一定会被传输到从库的relay_log，但是SQL_thread有没有应用完没有办法保证，所以会存在延迟  
 mysql5.7已经对其优化了很多，性能是5.6的两到三倍，所以5.7是5系列中最好的  
+
+
+![](images/复制技术变革5.jpg) 
+
 ![](images/复制技术变革6.jpg) 
 
 ![](images/复制技术变革7.jpg) 
 
 
 
+# 复制选择
+
+![](images/复制技术变革8.jpg) 
 
 
 
