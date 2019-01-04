@@ -64,10 +64,9 @@ MySQL5.5和5.6中使用的机制
 - 引擎层处理
 - 写入binlog
 - 引擎层提交(此时不给客户端返回)
-- 保证日志传到slave上再给客户端返回
+- 保证日志传到slave上
+- 再给客户端返回
 ![](images/复制技术变革2.jpg)  
-
-
 
 **出现问题**：同一个时刻在主从读取的数据不一样([数据不一致性读](https://blog.csdn.net/qq_34569497/article/details/79064208))，官方为了解决这个问题，推出了增强半同步  
 ![](images/复制技术变革3.jpg)
@@ -78,10 +77,56 @@ MySQL5.5和5.6中使用的机制
 增强半同步特性  
 - 技术上去掉了幻读
 - 同时在MySQL5.7.4后引入了Fast Semi-sync Replication
-但增强半同步依然存在数据不一致的情况  
-![](images/复制技术变革4.jpg)  
-mysql起来扫描redo，看处于prepare状态的Xid，拿到Xid去扫描最后一个binlog，存在，则该事务已经写完binlog，只不过还没有来得及写binlog filename position到redo，直接commit；否则就没有写完binlog就回滚  
+- 但增强半同步依然存在数据不一致的情况   
+
+处理过程
+- SQL处理
+- 引擎层处理
+- 写入binlog
+- 保证日志传到slave上
+- 引擎层提交
+- 再给客户端返回
+
+
+Innodb在有Binlog时写入流程： 
+1. 事务先写引擎(如：undo和redo)
+2. 事务在redo commit(由于事务在提交的时候是串行的)需要拿到mutex_prepare_lock，并在redo log中写入Xid
+3. 写binlog，等待binlog写入成功commit带上Xid
+4. redo中写入binlog filename position，释放mutex_prepare_lock
+
+Mysql Crash Recovery机制：
+1. mysql起来扫描redo，看处于prepare状态的Xid
+2. 拿到Xid去扫描最后一个binlog看Xid是否存在；存在，则该事务已经写完binlog，只不过还没有来得及写binlog filename position到redo，直接commit；否则就没有写完binlog就回滚  
+![](images/复制技术变革4.jpg) 
+增强半同步数据不一致的地方  
+- **表现在多一个事务多一条数据**   
+- 主从同步没有解决此问题
+- MGR处理的方法：没有复制过去的Binlog Event给truncate掉(跟客户端没有相应的事务，叫做不完整的事务，删除是没有任何问题)，MGR先查询自己传递过去的GTID，然后再去查询本地GTID，对比一下本地是否比远程的多，如果多就把本地多余的GTID给truncate掉，保证本地和远程是一致的
+
+
 ![](images/复制技术变革5.jpg) 
+
+# 半同步会不会有延迟
+
+- 会有延迟
+	- 半同步只是IO_thread和主库保持同步，sql_thread无要求
+
+# 复制的瓶颈点
+
+- dump thread
+- IO_thread
+- SQL_thread
+
+只是保证主库上提交的事务一定会被传输到从库的relay_log，但是SQL_thread有没有应用完没有办法保证，所以会存在延迟  
+mysql5.7已经对其优化了很多，性能是5.6的两到三倍，所以5.7是5系列中最好的  
+![](images/复制技术变革6.jpg) 
+
+![](images/复制技术变革7.jpg) 
+
+
+
+
+
 
 
 
