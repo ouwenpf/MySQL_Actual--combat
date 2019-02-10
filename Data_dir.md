@@ -36,7 +36,7 @@
   `show binary logs;` 列出当前日志文件及大小  
   `mysqlbinlog -v  --base64-output=decode-rows  /data/mysql/mysql3306/logs/mysql-bin.000001` 解析日志文件内容
   `show master status;` 显示MySQL的日志及状态(需要super，relication，client权限)[slave-status](https://www.cnblogs.com/paul8339/p/7615310.html)   
-  `show binlog events in mysql-bin.000001;`以事件的格式显示  
+  `show binlog events in 'mysql-bin.000001';`以事件的格式显示  
   `purge binary logs to 'mysql-bin.000001';`清理binlog日志  
 - binlog日志注意事项
 	- log-bin日志在线上主从都需要开启，保存的天数可以根据磁盘的容量进行评估
