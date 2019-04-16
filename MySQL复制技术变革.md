@@ -89,6 +89,8 @@ MySQL5.5和5.6中使用的机制
 - 引擎层提交
 - 再给客户端返回
 
+[参考资料1](https://juejin.im/entry/5c061adf6fb9a049c23232d6)  
+[参考资料2](http://blog.itpub.net/30109892/viewspace-2062493/)  
 
 Innodb在有Binlog时写入流程： 
 1. 事务先写引擎(如：undo和redo)
