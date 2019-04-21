@@ -83,7 +83,7 @@
 yum -y install  make automake libtool pkgconfig libaio-devel vim-common
 git clone https://github.com/akopytov/sysbench.git
 ./autogen.sh
-./configure
+./configure --with-mysql-includes=/usr/local/mysql/ --with-mysql-libs=/usr/local/mysql/lib 
 make && make install
 sysbench --version
 sysbench 1.1.0
