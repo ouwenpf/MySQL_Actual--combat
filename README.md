@@ -2,6 +2,13 @@
 
 - MySQL DBA开篇
 - MySQL专业环境安装
+	- [MySQL下载](2-MySQL专业安装.md#MySQL下载)
+	- [安装前准备](2-MySQL专业安装.md#安装前准备)
+	- [MySQL一键安装](2-MySQL专业安装.md#MySQL一键安装)
+	- [专业的启动方式](2-MySQL专业安装.md#专业的启动方式)
+		- [客户端本地socke连接](2-MySQL专业安装.md#客户端本地socke连接)
+		- [账户安全加固](2-MySQL专业安装.md#账户安全加固)
+	- [初始化故障排查](2-MySQL专业安装.md#初始化故障排查)
 - 多实例部署和建议
 - mysql基础
 	- [账户管理](账户管理.md#账户管理)
