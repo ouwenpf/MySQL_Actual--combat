@@ -54,8 +54,8 @@ vm.dirty_ratio=10	脏数据占单个内存的比分比
 
 ## MySQL一键安装
 	
-[5.7脚本](scripts/MySQL5.7_install.sh)  
-[8.0脚本](scripts/MySQL8.0_install.sh) 
+[5.7脚本](scripts/2-MySQL专业安装/MySQL5.7_install.sh)  
+[8.0脚本](scripts/2-MySQL专业安装/MySQL8.0_install.sh) 
 
 
 ## 专业的启动方式
