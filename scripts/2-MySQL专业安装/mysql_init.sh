@@ -6,11 +6,31 @@ function_package(){
 		yum install -y wget 
 		wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo  
 		wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  
-		yum install -y numactl-libs libaio man bash-completion man-pages-zh-CN.noarch iptables-services lrzsz tree screen telnet dosunix nmap htop openssl openssh openssl-devel bind-utils iotop nc dstat yum-utils*  psacct
+		yum install -y numactl-libs libaio man bash-completion man-pages-zh-CN.noarch iptables-services lrzsz tree screen telnet dosunix nmap htop openssl openssh openssl-devel bind-utils iotop nc dstat yum-utils*  psacct glibc-common
 	else
 		echo "The network connection failed and the installation was terminated!"
 		exit
 	fi
+}
+
+function_oneinstack(){
+
+cat > /etc/profile.d/oneinstack.sh <<-EOF
+	HISTSIZE=10000
+	#red
+	#PS1="\[\e[37;40m\][\[\e[31;40m\]\u\[\e[31;40m\]@\h \[\e[31;40m\]\W\[\e[0m\]]\\\\$ "
+	#green
+	#PS1="\[\e[37;40m\][\[\e[32;40m\]\u\[\e[32;40m\]@\h \[\e[32;40m\]\W\[\e[0m\]]\\\\$ "
+	HISTTIMEFORMAT="%F %T $(whoami) "
+	HISTCONTROL="ignoreboth"
+	alias ll='ls -hltr'
+	alias lh='l | head'
+	alias vi='vim'		
+	export LANG="en_US.UTF-8"
+EOF
+
+. /etc/profile.d/oneinstack.sh
+
 }
 
 function_system(){
@@ -32,4 +52,5 @@ function_system(){
 }
 
 function_package
-function_system
+function_oneinstack
+#function_system

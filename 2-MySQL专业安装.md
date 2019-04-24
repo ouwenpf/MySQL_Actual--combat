@@ -89,7 +89,7 @@ mysql>drop database test;
 2. 目录权限/data/mysql/mysql3306
 3. datadir为非空
 4. 磁盘空间不够df -h
-5. 错误参数，重点查询error.log文件
+5. 错误参数，重点查询error.log文件，非重要参数可以加上前缀losse-
 6. selinux没有关闭
 
 ```
