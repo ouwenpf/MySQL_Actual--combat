@@ -61,3 +61,5 @@ Threads fairness:
 ```
 ## sysbench其它压测功能
 [其它测试](http://wangshengzhuang.com/2017/05/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3/MySQL/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/Sysbench%E8%BF%9B%E8%A1%8CCPU%20%E5%86%85%E5%AD%98%20IO%20%E7%BA%BF%E7%A8%8B%20mutex%E6%B5%8B%E8%AF%95%E4%BE%8B%E5%AD%90/)
+
+
