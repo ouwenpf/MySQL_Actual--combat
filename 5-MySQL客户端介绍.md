@@ -53,6 +53,7 @@ mysql --login-path=3306
 ![](images/5-MySQL客户端介绍/MySQL客户端介绍03.jpg) 
 
 ### 推荐的客户端GUI工具
+
 wokebench是MySQL官方的GUI免费工具
 
 ![](images/5-MySQL客户端介绍/MySQL客户端介绍04.jpg) 
