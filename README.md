@@ -39,7 +39,7 @@
 		- [mysql客户端登录方式](5-MySQL客户端介绍.md#mysql客户端登录方式)
 		- [mysql安全更新](5-MySQL客户端介绍.md#mysql安全更新)
 		- [mysql输入终结及输出](5-MySQL客户端介绍.md#mysql输入终结及输出)
-		- [推荐客户端GUI工具](5-MySQL客户端介绍.md#推荐的客户端GUI工具)
+		- [推荐客户端GUI工具](5-MySQL客户端介绍.md#客户端GUI工具)
 - MySQL数据类型
 	- [整形](数据类型.md#整形)
 	- [浮点型](数据类型.md#浮点型)
