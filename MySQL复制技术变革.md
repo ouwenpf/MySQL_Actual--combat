@@ -35,7 +35,7 @@ MySQL中使用row格式进行复制，原因如下：
 	- 缺点：
 		- binary log比较大
 		- 单语句更新(删除)表的行数量过多，会形成大量的binlog
-		- 无法从bin_log看见用户执行的sql(binlog_row_query_log_events记录用户的query)
+		- 无法从bin_log看见用户执行的sql(binlog_rows_query_log_events记录用户的query)
 
 - mixed格式：
 	- 此种格式属于一个过渡的格式
