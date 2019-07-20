@@ -13,16 +13,13 @@ prompt="\\u@\\h [\\d]>"
 user                                =mysql                          #	mysql
 basedir                             =/usr/local/mysql/              #	/usr/local/mysql/
 datadir                             =/data/mysql/mysql3306/data     #	/usr/local/mysql/data
-server_id                           =113306                         #	0
+server_id                           =330688                         #	0
 port                                =3306                           #	3306
 character_set_server                =utf8                           #	latin1
 skip_character_set_client_handshake = 1								#    0
 explicit_defaults_for_timestamp     =off                            #    off
-log_timestamps                      =system
 default_time_zone		            ='+8:00'                        #	utc
 socket                              =/tmp/mysql3306.sock            #	/tmp/mysql.sock
-read_only                           = 1                             #   off
-super_read_only                     = 1
 skip_name_resolve                   =off                            #   0
 auto_increment_increment            =1                              #	1
 auto_increment_offset               =1                              #	1
@@ -45,7 +42,6 @@ expire_logs_days                    =7                              #	0
 binlog_cache_size                   =65536                          #	65536(64k)
 #binlog_checksum                    =none                           #	CRC32
 sync_binlog                         =1                              #	1
-slave-preserve-commit-order         =ON                             #
 
 ####: for error-log
 log_error                           =error.log                      #	/usr/local/mysql/data/localhost.localdomain.err
@@ -73,29 +69,16 @@ relay_log_recovery					 =1								#   0
 sync_relay_log						 =1								#   10000
 sync_relay_log_info					 =1								#   10000
 sync_master_info					 =1								#	10000
-slave_parallel_type                  =logical_clock                 #    database | LOGICAL_CLOCK
 slave_parallel_workers               =4                             #    0
-#rpl_semi_sync_master_enabled        =1                             #    0
-#rpl_semi_sync_slave_enabled         =1                             #    0
-#rpl_semi_sync_master_timeout        =1000                          #    1000(1 second)
-#plugin_load_add                     =semisync_master.so            #
-#plugin_load_add                     =semisync_slave.so             #
-binlog_group_commit_sync_delay       =100                           #    500(0.05%秒)、默认值0
-binlog_group_commit_sync_no_delay_count = 10                        #    0
-#binlog_order_commits				 =off							#	 0
 slave_net_timeout					 =15							#	 60
 
-####: for write_set
-binlog_transaction_dependency_tracking         =writeset_session			#  write_set
-transaction_write_set_extraction               =XXHASH64					#  XXHASH64
 
 ####: for innodb
-innodb_data_file_path                           =ibdata1:100M:autoextend    #	ibdata1:12M:autoextend
-innodb_temp_data_file_path                      =ibtmp1:12M:autoextend      #	ibtmp1:12M:autoextend
+innodb_data_file_path                           =ibdata1:1024M:autoextend    #	ibdata1:12M:autoextend
 innodb_buffer_pool_filename                     =ib_buffer_pool             #	ib_buffer_pool
 innodb_log_group_home_dir                       =./                         #	./
-innodb_log_files_in_group                       =3                          #	2
-innodb_log_file_size                            =100M                       #	50331648(48M)
+innodb_log_files_in_group                       =4                       #	2
+innodb_log_file_size                            =1024M                       #	50331648(48M)
 innodb_file_per_table                           =on                         #	on
 innodb_online_alter_log_max_size                =128M                       #   134217728(128M)
 innodb_open_files                               =65535                      #   2000
@@ -104,9 +87,7 @@ innodb_thread_concurrency                       =0                          #	0
 innodb_read_io_threads                          =4                          #	4
 innodb_write_io_threads                         =4                          #	4
 innodb_purge_threads                            =4                          #	4(垃圾回收)
-innodb_page_cleaners                            =4                          #   4(刷新lru脏页)
 innodb_print_all_deadlocks                      =on                         #	off
-innodb_deadlock_detect                          =on                         #	on
 innodb_lock_wait_timeout                        =20                         #	50
 innodb_spin_wait_delay                          =128                        #	6
 innodb_autoinc_lock_mode                        =2                          #	1
@@ -124,7 +105,7 @@ innodb_doublewrite                              =on                         #	on
 innodb_log_buffer_size                          =128M                       #	16777216(16M)
 innodb_flush_log_at_timeout                     =1                          #	1
 innodb_flush_log_at_trx_commit                  =1                          #	1
-innodb_buffer_pool_size                         =100M                  		#	134217728(128M)
+innodb_buffer_pool_size                         =8192M                      #	134217728(128M)
 innodb_buffer_pool_instances                    =4
 #--------innodb scan resistant
 innodb_old_blocks_pct                           =37                         #    37
@@ -133,7 +114,6 @@ innodb_old_blocks_time                          =1000                       #   
 innodb_read_ahead_threshold                     =56                         #    56 (0..64)
 innodb_random_read_ahead                        =OFF                        #    OFF
 #--------innodb buffer pool state
-innodb_buffer_pool_dump_pct                     =25                         #    25
 innodb_buffer_pool_dump_at_shutdown             =ON                         #    ON
 innodb_buffer_pool_load_at_startup              =ON                         #    ON
 innodb_flush_method								=O_DIRECT

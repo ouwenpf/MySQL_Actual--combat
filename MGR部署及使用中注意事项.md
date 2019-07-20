@@ -8,7 +8,15 @@
 
 ```
 #### for group_replication  
-binlog_checksum=NONE  
+server_id=1 
+gtid_mode=ON 
+enforce_gtid_consistency=ON 
+master_info_repository=TABLE 
+relay_log_info_repository=TABLE 
+binlog_checksum=NONE 
+log_slave_updates=ON 
+binlog_format=ROW
+--------------------------------------------
 transaction_write_set_extraction=XXHASH64  
 loose-group_replication_group_name="3db33b36-0e51-409f-a61d-c99756e90155"  
 loose-group_replication_start_on_boot=off

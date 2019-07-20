@@ -10,8 +10,9 @@
 #!/bin/sh
 #
 base_dir="/application/mysql-8.0.15"
-ip_str=`ip a|grep -A 3 'mtu 1500'|awk  -F '[ /]+' 'NR==3{print $3}'|sed 's/\.//g'`
-server_id=$1${ip_str: -3}
+ip_str=`ip a|grep -A 3 'mtu 1500'|awk  -F '[ /]+' 'NR==3{print $3}'|awk -F '.' '{print $NF}'`
+#server_id=${ip_str: -3}
+server_id=${ip_str}$1
 
 if [ $# -eq 0 ];then
 	 echo "Usage: $0  {3306|3307|...}"

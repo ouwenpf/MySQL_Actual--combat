@@ -49,6 +49,7 @@ show binary logs;列出当前日志文件及大小
 mysqlbinlog -v  --base64-output=decode-rows  /data/mysql/mysql3306/logs/mysql-bin.000001` 解析日志文件内容
 show master status;显示MySQL的日志及状态(需要super，relication，client权限)[slave-status](https://www.cnblogs.com/paul8339/p/7615310.html)   
 show binlog events in 'mysql-bin.000001';以事件的格式显示  
+show binlog events in 'mysql-bin.000001' from 8224 limit 10从pos点:8224开始查起，查询10条
 purge binary logs to 'mysql-bin.000001';清理binlog日志  
 binlog日志注意事项
 log-bin日志在线上主从都需要开启，保存的天数可以根据磁盘的容量进行评估
@@ -70,7 +71,7 @@ FDE包信息如下：
 ```
 
 ```
-Log Rotate event:
+结束Log Rotate event:
 190424 23:04:35 server id 3306551  end_log_pos 201 CRC32 0x9833b72e    Rotate to mysql-bin.000003  pos: 4
 ```
 [日志事务类型](https://dev.mysql.com/doc/internals/en/event-classes-and-types.html)
@@ -141,13 +142,18 @@ GTID：为每个写的动作做一个唯一的编号
 
 ### 慢日志slow.log
 - 相关参数：  
-  `slow_query_log = on |set global slow_query_log=1或者set persist slow_query_log=1`  
-  `long_query_time = 1`  
-  `slow_query_log_file = slow.log`  
+```
+  set global slow_query_log=1或者set persist slow_query_log=1  
+  long_query_time = 1
+  slow_query_log_file = slow.log 
+  log_slow_admin_statements=1
+  min_examined_row_limit=0
+```
 - sys.statement_analysis  
    此表有详细SQL数据信息(多少SQL语句请求，高峰期时段SQL，当前慢查询的大小，数量等)，具体分析请读MySQL监控分析章节
 - set persist持久化，属于8.0修改变量的新特性，存放于文件mysql-auto.cnf，下次重启数据库后会加载
-
+- 相关的分析工具
+	- pt-query-digest
 ### 审计日志general.log
 目前不管收费还是开源的审计插件，对MySQL性能直接有很大的杀伤作用  
 **MySQL dba**专家强烈不推荐使用MySQL企业版，因为目前没有任何觉得MySQL企业版优于社区版本,也不推荐购买官方的审计组件
@@ -178,3 +184,4 @@ GTID：为每个写的动作做一个唯一的编号
 - strip mysqld/mysql一条核心的命令即可，就这么点东西
 
 
+[其它参考资料](https://dbalife.info/2018/06/12/MySQL-8-%E4%B8%AD%E5%A4%8D%E5%88%B6%E5%BB%B6%E6%97%B6%E7%9A%84%E6%B5%8B%E9%87%8F%E4%B8%8E%E7%9B%91%E6%8E%A7/)
