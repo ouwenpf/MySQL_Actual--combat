@@ -1,0 +1,110 @@
+24660.39
+9740.43
+14919.96
+4660.39
+create user 'user'@'localhost' identified by '123456';
+grant shutdown on *.* to 'user'@'localhost' ;
+sed -n '/MANPATH_MAP	\/usr\/local\/bin		\/usr\/local\/man/p' 
+接口这块是 cdn——阿里云前端机——中转——业务——redis+mysql
+有些接口，直接到高防了—阿里云前端机——中转——业务——redis+mysq
+高防+前端机——中转——业务——数据库
+1、实战班14期加密音视频：
+链接：https://pan.baidu.com/s/1_vv-t4Pb48h5XI6dI9SklQ 密码：v5qt 
+2018/11/8 9:38:21
+TEST 2018/11/8 9:38:21
+实战班13期加密音视频：https://pan.baidu.com/s/1UWlgrf4_pN8DjK78oefI9A 密码：b2vk
+
+
+
+awk -F  '["]'  '{print $8}'|awk -F ',' '{print $1}'|awk 'OFS="-" {a[$1]++}END{for(i in a)print a[i],i}'|sort -rn|head -20
+
+egrep -v 'GET /test.html'|awk -F '["]' '{print $8}' ../WR_tx.log|awk 'OFS="-" {a[$1]++}END{for(i in a)print a[i],i}'|sort -rn|head -20
+
+wget -q https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.13-linux-glibc2.12-x86_64.tar.xz
+
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+yum install -y yum-utils device-mapper-persistent-data lvm2
+yum -y install docker-ce
+mkdir /etc/docker/
+vim  /etc/docker/daemon.json
+{
+  "registry-mirrors":["https://rdtmp7tw.mirror.aliyuncs.com"],
+  "data-root":"/etc/docker/mirrors"
+}
+systemctl start docker.service
+docker load  < zst_centos7-201806.tar
+docker tag 7d0b68af5a06 zst14/centos7:latest
+
+docker network create --subnet=172.18.0.0/16 zstnet
+docker run -d -v /application:/application -v /data/dzst141:/data -v /etc/hosts:/etc/hosts -v /etc/resolv.conf:/etc/resolv.conf -p1411:22 --net zstnet --ip 172.18.0.11 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name dzst141 -h dzst141 zst14/centos7:latest
+
+docker run -d -v /application:/application -v /data/dzst142:/data -v /etc/hosts:/etc/hosts -v /etc/resolv.conf:/etc/resolv.conf -p1412:22 --net zstnet --ip 172.18.0.12 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name dzst142 -h dzst142 zst14/centos7:latest
+
+docker run -d -v /application:/application -v /data/dzst143:/data -v /etc/hosts:/etc/hosts -v /etc/resolv.conf:/etc/resolv.conf -p1413:22 --net zstnet --ip 172.18.0.13 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name dzst143 -h dzst143 zst14/centos7:latest
+
+--ansible
+docker run -d  -v /etc/hosts:/etc/hosts -v /etc/resolv.conf:/etc/resolv.conf -p14100:22 --net zstnet --ip 172.18.0.100  --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name ansible  -h ansible  zst14/centos7:latest
+
+1. groupadd mysql
+   创建一个没有shell的帐号
+useradd -g mysql -d /usr/local/mysql -s /sbin/nologin -MN mysql
+
+2. /opt/mysql/mysql-5.7.24....
+   cd /usr/local/
+   ln -s /opt/mysql/mysql-5.7.24.xx mysql
+3. /data
+   mkdir /data/mysql/mysql3306/{data,logs,tmp} -p
+   chown -R mysql:mysql /data/mysql/mysql3306
+
+4. /etc/my.cnf 
+5. /usr/local/mysql/bin/mysqld  --defaults-file=/etc/my.cnf  --initialize-insecure 
+6. 检查error logs
+
+7. /usr/local/mysql/bin/mysqld  &
+   /usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf &
+
+
+echo "export PATH=$PATH:/usr/local/mysql/bin" >>/etc/profile
+
+source /etc/profile
+
+yum install numactl-libs libaio  -y
+
+
+
+innodb_buffer_pool_size物理内存的50%-80%
+innodb_data_file_path                           =ibdata1:1024M:autoextend
+innodb_log_files_in_group                       =4
+innodb_log_file_size                            =1024M 
+
+
+
+
+老师多实例中，那么怎么指定mysql.sock文件，都是/tmp下，
+
+
+编译
+gcc和cpu指令的理解始终没有官方好
+gcc o3现在gcc o2比o3更加好
+
+rmp安装目录和管理非常不方便，迁移不便
+
+useradd -r -M -s /sbin/nologin mysql 
+数据库服务器一般是单独分区一个/data
+
+mysql -uroot -p123456 之前是这样登录的
+
+export PAHT=/usr/local/mysql/bin:$PATH
+
+
+yum -y install  make automake libtool pkgconfig libaio-devel vim-common
+git clone https://github.com/akopytov/sysbench.git
+./autogen.sh
+./configure
+make && make install
+sysbench /usr/local/share/sysbench/oltp_read_write.lua --mysql-host=172.18.0.11 --mysql-port=3306 --mysql-user=sysbensh --mysql-password=123456 --mysql-db=zst --tables=10 --table_size=100000 --mysql_storage_engine=Innodb cleanup
+
+sysbench /usr/local/share/sysbench/oltp_read_write.lua --mysql-host=172.18.0.11 --mysql-port=3306 --mysql-user=sysbensh --mysql-password=123456 --mysql-db=zst --tables=10 --table_size=100000 --mysql_storage_engine=Innodb prepare
+
+sysbench /usr/local/share/sysbench/oltp_read_write.lua  --mysql-host=172.18.0.11 --mysql-port=3306 --mysql-user=sysbensh --mysql-password=123456 --mysql-db=zst --tables=10 --table_size=100000 --mysql_storage_engine=Innodb --threads=10 --time=3600 --warmup-time=100 --report-interval=10 --rand-type=uniform run
+

@@ -11,9 +11,12 @@ MySQL下载唯一合法途径就是去官方下载，其它网上来源均不安
 
 - 关闭numa  
 ```
-关闭numa：bios设置--memory setting--node interleaving设置enabled
+1. 关闭numa：bios设置--memory setting--node interleaving设置enabled
 numactl --hardware 查询numa是否开启
-numactl --interleave=all mysqld --defaults-file=/data/mysql/mysql3306/my.cnf & 系统运行后不能进行BIOS操作可以采取此办法启动mysql
+2. numactl --interleave=all mysqld --defaults-file=/data/mysql/mysql3306/my.cnf & 系统运行后不能进行BIOS操作可以采取此办法启动mysql
+3. 修改 /etc/grub.conf 配置文件，在 kernel 那行增加一个配置后重启生效
+kernel /vmlinuz-2.6.32-754.17.1.el6.x86_64 ro root=UUID=8ea2724c-08d3-4a47-97b3-65c38f56dc2a rd_NO_LUKS rd_NO_LVM LANG=en_US.UTF-8 rd_NO_MD SYSFONT=latarcyrheb-sun16 crashkernel=auto  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM  elevator=deadline numa=off  rhgb quiet
+ 
 
 ```
 
@@ -22,8 +25,8 @@ numactl --interleave=all mysqld --defaults-file=/data/mysql/mysql3306/my.cnf & �
 ```
 echo "*                -       nofile          65535" >>/etc/security/limits.conf
 echo "*                -       nproc          65535" >>/etc/security/limits.conf
-echo 'DefaultLimitNOFILE=65535' >>/etc/systemd/system.conf
-echo 'DefaultLimitNPROC=65535' >>/etc/systemd/system.conf
+#echo 'DefaultLimitNOFILE=65535' >>/etc/systemd/system.conf
+#echo 'DefaultLimitNPROC=65535' >>/etc/systemd/system.conf
 
 net.ipv4.tcp_max_syn_backlog = 819200
 net.core.netdev_max_backlog = 500000
@@ -77,7 +80,7 @@ mysql默认启动配置文件的加载顺序，mysqld读取配置文件中[mysql
 
 ```
 低于5.7版本进行账户加固处理：
-mysql>delete from mysql.user where user!='root' or host!='localhost';
+mysql>delete from mysql.user where user<>'root' or host<>'localhost';
 mysql>truncate mysql.db;
 mysql>drop database test;
 ```
@@ -95,3 +98,18 @@ mysql>drop database test;
 ```
 
 
+- 系统初始化
+```
+echo "*                -       nofile          65535" >>/etc/security/limits.conf
+echo "*                -       nproc          65535" >>/etc/security/limits.conf
+#echo deadline|noop >/sys/block/sda/queue/scheduler
+sysctl -w net.ipv4.tcp_max_syn_backlog = 819200
+sysctl -w net.core.netdev_max_backlog = 500000
+sysctl -w net.core.somaxconn = 4096
+sysctl -w net.ipv4.tcp_tw_reuse = 1
+sysctl -w net.ipv4.tcp_timestamps = 1
+sysctl -w net.ipv4.tcp_tw_recycle = 0
+sysctl -w vm.swappiness=5
+sysctl -w vm.dirty_background_ratio=5
+sysctl -w vm.dirty_ratio=10
+```

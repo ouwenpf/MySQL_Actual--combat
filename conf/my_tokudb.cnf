@@ -1,0 +1,83 @@
+[client]
+port            = 3308
+
+[mysql]
+auto-rehash
+prompt="\\u@\\h [\\d]>"
+#prompt="(\\u@\\h_\R:\m:\\s)[\\d]>"
+#pager="less -i -n -S"
+#tee=/opt/mysql/query.log
+
+[mysqld]
+####: for global
+user                                =mysql                          #	mysql
+basedir                             =/usr/local/percona/              #	/usr/local/percona/
+datadir                             =/data/mysql/mysql3308/data     #	/usr/local/percona/data
+server_id                           =3308132                         #	0
+port                                =3308                           #	3308
+character_set_server                =utf8                           #	latin1
+skip_character_set_client_handshake = 1								#    0
+explicit_defaults_for_timestamp     =off                            #    off
+default_time_zone		            ='+8:00'                        #	utc
+socket                              =/tmp/mysql3308.sock            #	/tmp/mysql.sock
+skip_name_resolve                   =off                            #   0
+auto_increment_increment            =1                              #	1
+auto_increment_offset               =1                              #	1
+
+
+#buffer & cache
+table_open_cache = 2048
+table_definition_cache = 2048
+max_heap_table_size = 96M
+sort_buffer_size = 2M
+join_buffer_size = 2M
+tmp_table_size = 96M
+key_buffer_size = 8M
+read_buffer_size = 2M
+read_rnd_buffer_size = 16M
+bulk_insert_buffer_size = 32M
+
+
+
+####  for binlog
+binlog_format                       =row                            #	row
+
+####: for error-log
+log_error                           =error.log                      #	/usr/local/percona/data/localhost.localdomain.err
+
+general_log                         =off                            #   off
+general_log_file                    =general.log                    #   hostname.log
+
+
+
+
+####: for innodb
+#innodb_data_file_path                           =ibdata1:1024M:autoextend    #	ibdata1:12M:autoextend
+innodb_buffer_pool_size = 128M
+innodb_buffer_pool_instances = 1
+innodb_flush_log_at_trx_commit = 1
+innodb_log_buffer_size = 64M
+innodb_log_file_size = 256M
+innodb_log_files_in_group = 2
+innodb_file_per_table = 1
+innodb_status_file = 1
+transaction_isolation = READ-COMMITTED
+innodb_flush_method = O_DIRECT
+
+
+#tokudb
+[mysqld_safe]
+malloc-lib=/usr/lib64/libjemalloc.so.1
+plugin-dir=/usr/local/percona/lib/mysql/plugin/
+plugin-load=ha_tokudb.so
+thp-setting=never
+
+tokudb_commit_sync = 0
+tokudb_directio = 1
+tokudb_read_block_size = 128K
+tokudb_read_buf_size = 128K
+tokudb_row_format = tokudb_fast
+
+[mysqldump]
+quick
+max_allowed_packet = 32M

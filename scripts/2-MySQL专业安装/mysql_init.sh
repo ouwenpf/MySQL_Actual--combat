@@ -23,10 +23,9 @@ cat > /etc/profile.d/oneinstack.sh <<-EOF
 	#PS1="\[\e[37;40m\][\[\e[32;40m\]\u\[\e[32;40m\]@\h \[\e[32;40m\]\W\[\e[0m\]]\\\\$ "
 	HISTTIMEFORMAT="%F %T $(whoami) "
 	HISTCONTROL="ignoreboth"
-	alias ll='ls -hltr'
+	alias ll='ls -hltr --time-style=long-iso'
 	alias lh='l | head'
 	alias vi='vim'		
-	export LANG="en_US.UTF-8"
 EOF
 
 . /etc/profile.d/oneinstack.sh
@@ -37,8 +36,8 @@ function_system(){
 
 	echo "*                -       nofile          65535" >>/etc/security/limits.conf
 	echo "*                -       nproc          65535" >>/etc/security/limits.conf
-	echo 'DefaultLimitNOFILE=65535' >>/etc/systemd/system.conf
-	echo 'DefaultLimitNPROC=65535' >>/etc/systemd/system.conf
+	#echo 'DefaultLimitNOFILE=65535' >>/etc/systemd/system.conf
+	#echo 'DefaultLimitNPROC=65535' >>/etc/systemd/system.conf
 	#echo deadline|noop >/sys/block/sda/queue/scheduler
 	sysctl -w net.ipv4.tcp_max_syn_backlog = 819200
 	sysctl -w net.core.netdev_max_backlog = 500000

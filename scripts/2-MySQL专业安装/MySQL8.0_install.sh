@@ -58,7 +58,7 @@ if [ ! -f /data/mysql/mysql$1/my.cnf ];then
 
    	cp  ${base_dir}/my.cnf /data/mysql/mysql$1 &&\
 	sed -ri  's/3306/'$1'/g'  /data/mysql/mysql$1/my.cnf
-	sed  -ri  '15s/'$1'/'${server_id}'/g'  /data/mysql/mysql$1/my.cnf	
+	sed  -ri  '16s/'$1'/'${server_id}'/g'  /data/mysql/mysql$1/my.cnf	
 fi
  
 

@@ -73,6 +73,13 @@ slave_parallel_workers               =4                             #    0
 slave_net_timeout					 =15							#	 60
 
 
+####:replicate-ignore-db
+#replicate-ignore-db                 =mysql
+#replicate-ignore-db                 =information_schema
+#replicate-ignore-db                 =performance_schema
+
+
+
 ####: for innodb
 innodb_data_file_path                           =ibdata1:1024M:autoextend    #	ibdata1:12M:autoextend
 innodb_buffer_pool_filename                     =ib_buffer_pool             #	ib_buffer_pool
@@ -88,6 +95,7 @@ innodb_read_io_threads                          =4                          #	4
 innodb_write_io_threads                         =4                          #	4
 innodb_purge_threads                            =4                          #	4(垃圾回收)
 innodb_print_all_deadlocks                      =on                         #	off
+innodb_rollback_on_timeout						=on                         #	on
 innodb_lock_wait_timeout                        =20                         #	50
 innodb_spin_wait_delay                          =128                        #	6
 innodb_autoinc_lock_mode                        =2                          #	1

@@ -9,10 +9,10 @@
 
 #!/bin/sh
 #
-base_dir="/application/mysql-5.7.25"
+base_dir="/data/mysql-5.7.25"
 ip_str=`ip a|grep -A 3 'mtu 1500'|awk  -F '[ /]+' 'NR==3{print $3}'|awk -F '.' '{print $NF}'`
 #server_id=${ip_str: -3}
-server_id=${ip_str}$1
+server_id=${1}${ip_str}
 
 if [ $# -eq 0 ];then
 	 echo "Usage: $0  {3306|3307|...}"
@@ -20,7 +20,7 @@ if [ $# -eq 0 ];then
 fi
 
 if [ ! -d ${base_dir} ];then
-	 echo "First create the application directory, MySQL package storage location"
+	 echo "First create the data directory, MySQL package storage location"
 	 exit
 fi
 
@@ -58,7 +58,7 @@ if [ ! -f /data/mysql/mysql$1/my.cnf ];then
 
    	cp  ${base_dir}/my.cnf /data/mysql/mysql$1 &&\
 	sed -ri  's/3306/'$1'/g'  /data/mysql/mysql$1/my.cnf
-	sed  -ri  '15s/'$1'/'${server_id}'/g'  /data/mysql/mysql$1/my.cnf	
+	sed  -ri  '16s/'$1'/'${server_id}'/g'  /data/mysql/mysql$1/my.cnf	
 fi
  
 
