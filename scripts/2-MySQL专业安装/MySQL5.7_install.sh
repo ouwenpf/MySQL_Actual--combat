@@ -86,7 +86,7 @@ if [ ! -d /usr/include/mysql ];then
 fi
 
 #man_file
-if [ ! -f /etc/man_db.conf ];then
+if [ -f /etc/man_db.conf -a `grep  '/usr/local/mysql/man'  /etc/man_db.conf|wc  -l` -eq 0 ];then
 	sed -ri '22a \MANDATORY_MANPATH                       /usr/local/mysql/man'  /etc/man_db.conf
 
 fi
