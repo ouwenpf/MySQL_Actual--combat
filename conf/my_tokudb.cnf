@@ -1,5 +1,5 @@
 [client]
-port            = 3308
+port            = 3306
 
 [mysql]
 auto-rehash
@@ -11,10 +11,10 @@ prompt="\\u@\\h [\\d]>"
 [mysqld]
 ####: for global
 user                                =mysql                          #	mysql
-basedir                             =/usr/local/percona/              #	/usr/local/percona/
-datadir                             =/data/mysql/mysql3308/data     #	/usr/local/percona/data
-server_id                           =3308132                         #	0
-port                                =3308                           #	3308
+basedir                             =/usr/local/mysql/              #	/usr/local/mysql/
+datadir                             =/data/mysql/mysql3308/data     #	/usr/local/mysql/data
+server_id                           =3306                         #	0
+port                                =3306                           #	3308
 character_set_server                =utf8                           #	latin1
 skip_character_set_client_handshake = 1								#    0
 explicit_defaults_for_timestamp     =off                            #    off
@@ -43,7 +43,7 @@ bulk_insert_buffer_size = 32M
 binlog_format                       =row                            #	row
 
 ####: for error-log
-log_error                           =error.log                      #	/usr/local/percona/data/localhost.localdomain.err
+log_error                           =error.log                      #	/usr/local/mysql/data/localhost.localdomain.err
 
 general_log                         =off                            #   off
 general_log_file                    =general.log                    #   hostname.log
@@ -68,7 +68,7 @@ innodb_flush_method = O_DIRECT
 #tokudb
 [mysqld_safe]
 malloc-lib=/usr/lib64/libjemalloc.so.1
-plugin-dir=/usr/local/percona/lib/mysql/plugin/
+plugin-dir=/usr/local/mysql/lib/mysql/plugin/
 plugin-load=ha_tokudb.so
 thp-setting=never
 

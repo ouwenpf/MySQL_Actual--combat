@@ -36,14 +36,14 @@ docker load  < zst_centos7-201806.tar
 docker tag 7d0b68af5a06 mysql/centos7:latest
 
 docker network create --subnet=192.168.0.0/16 mysqlnet
-docker run -d -v /data/tools:/data/tools -v /data/dzst141:/data -v /etc/hosts:/etc/hosts -v /etc/resolv.conf:/etc/resolv.conf -p1411:22 --net mysqlnet --ip 172.18.0.11 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name dzst141 -h dzst141 mysql/centos7:latest
+docker run -d -v /data/tools:/tools  -v /application:/application -v  /etc/resolv.conf:/etc/resolv.conf -p55011:22 --net mysqlnet --ip 192.168.5.11 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name mysq57-1 -h note57-1 mysql/centos7:latest /usr/sbin/init
 
-docker run -d -v /application:/application -v /data/dzst142:/data -v /etc/hosts:/etc/hosts -v /etc/resolv.conf:/etc/resolv.conf -p1412:22 --net mysqlnet --ip 172.18.0.12 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name dzst142 -h dzst142 mysql/centos7:latest
+docker run -d -v /data/tools:/tools  -v /application:/application -v  /etc/resolv.conf:/etc/resolv.conf -p58011:22 --net mysqlnet --ip 192.168.8.11 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name mysq8-1 -h note8-1 mysql/centos7:latest  /usr/sbin/init
 
-docker run -d -v /application:/application -v /data/dzst143:/data -v /etc/hosts:/etc/hosts -v /etc/resolv.conf:/etc/resolv.conf -p1413:22 --net mysqlnet --ip 172.18.0.13 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name dzst143 -h dzst143 mysql/centos7:latest
+docker run -d -v /application:/application -v /data/dzst143:/data -v /etc/hosts:/etc/hosts -v /etc/resolv.conf:/etc/resolv.conf -p1413:22 --net mysqlnet --ip 172.18.0.13 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name dzst143 -h dzst143 mysql/centos7:latest /usr/sbin/init
 
 --ansible
-docker run -d  -v /etc/hosts:/etc/hosts -v /etc/resolv.conf:/etc/resolv.conf -p14100:22 --net mysqlnet --ip 172.18.0.100  --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name ansible  -h ansible  mysql/centos7:latest
+docker run -d  -v /etc/hosts:/etc/hosts -v /etc/resolv.conf:/etc/resolv.conf -p14100:22 --net mysqlnet --ip 172.18.0.100  --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name ansible  -h ansible  mysql/centos7:latest /usr/sbin/init
 
 1. groupadd mysql
    创建一个没有shell的帐号

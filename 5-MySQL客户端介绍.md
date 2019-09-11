@@ -27,7 +27,7 @@ mysql_config_editor set --login-path=3307 --host=localhost --socket=/tmp/mysql33
 mysql_config_editor print --all
 [3306]
 user = root
-password = *****
+password = ****
 host = localhost
 port = 3306
 socket = /tmp/mysql3306.sock
