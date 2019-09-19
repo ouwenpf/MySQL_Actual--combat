@@ -42,6 +42,7 @@ wget -c  'http://rdsbak-hz-v3.oss-cn-hangzhou.aliyuncs.com/custins4211263/hins29
 
 恩施代理：esmj.renren6.com 114.55.179.39 10.26.92.204 Gameads@2019  mysql：Diandoojaajia201i6
 恩施麻将api：116.62.30.218  10.27.235.85 Dianjia2017!@#123 
+恩施麻将api2:10.46.67.213
 支付：pay.renren6.com 		 116.62.38.206 10.28.46.15 	http://pay.renren6.com/adminer.php  mysql：Dianjia2016!@#
 	  test.pay.renren6.com	 120.26.96.30  10.51.25.87 Dianjia2017!@#123
 
@@ -102,6 +103,9 @@ https://www.netflav.com/all?actress=%E4%B8%89%E6%B5%A6%E6%81%B5%E7%90%86%E5%AD%9
 
 http://www.jingdiand.xyz:8080/ 临时下载
 http://www.jingdiand.xyz:52553/adminer.php
+
+http://47.91.210.14:59080/pjl.tar.gz
+http://47.91.210.14:59088/adminer.php
 
 
 
