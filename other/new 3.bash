@@ -42,7 +42,7 @@ wget -c  'http://rdsbak-hz-v3.oss-cn-hangzhou.aliyuncs.com/custins4211263/hins29
 
 恩施代理：esmj.renren6.com 114.55.179.39 10.26.92.204 Gameads@2019  mysql：Diandoojaajia201i6
 恩施麻将api：116.62.30.218  10.27.235.85 Dianjia2017!@#123 
-恩施麻将api2:10.46.67.213
+恩施麻将api2:10.46.67.213  /data/web_backup/esmj/esmj_script/esmj_script/20190604-144257/data/logs/paiju
 支付：pay.renren6.com 		 116.62.38.206 10.28.46.15 	http://pay.renren6.com/adminer.php  mysql：Dianjia2016!@#
 	  test.pay.renren6.com	 120.26.96.30  10.51.25.87 Dianjia2017!@#123
 
@@ -53,9 +53,10 @@ ssh root@mm.renren6.com
 
 
 麻将订单校验服务 118.178.106.222 10.26.96.31 Dianjia2017!@#123     mjjy, R&74Qq4vR  "gdy_mjjy", "R&74Qq4vE"
-
+发短信:10.47.53.199
 阿里牛牛账号dianjia2017    www.kk8.com
-			麻将：djwl2016       Doojaa@2020
+			麻将：djwl2016       Doojaa@2020         redis:r-bp1bf531b1782914  Doojaa2016
+				  124.156.110.210 administrator Gameads@2020
 			3A：gameads2017  Gameads@2019  
 			http://walle.game3a.com/login
 			owner@walle-web.io 
@@ -92,7 +93,7 @@ game-master.mysql.rds.aliyuncs.com  HJdianjiaWEB2016  webhj
 http://118.178.106.222:52553/adminer.php
 
 恩施麻将游戏： mysql://renren6:Dianjia2016@majianglog001.mysql.rds.aliyuncs.com:3306/esmj#utf8
-r-bp1bf531b1782914  Doojaa2016
+
 
   
   echo  'Enshimj!@#123'|passwd --stdin root
@@ -101,11 +102,10 @@ r-bp1bf531b1782914  Doojaa2016
 	
 https://www.netflav.com/all?actress=%E4%B8%89%E6%B5%A6%E6%81%B5%E7%90%86%E5%AD%90
 
-http://www.jingdiand.xyz:8080/ 临时下载
-http://www.jingdiand.xyz:52553/adminer.php
 
-http://47.91.210.14:59080/pjl.tar.gz
+
+http://47.91.210.14:59080/
 http://47.91.210.14:59088/adminer.php
-
+http://47.111.2.151:8080
 
 

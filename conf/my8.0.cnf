@@ -73,6 +73,7 @@ skip_slave_start                     =1                             #
 master_info_repository               =table                         #	file
 relay_log_info_repository            =table                         #	file
 relay_log_recovery					 =1								#   0
+relay_log_purge						 =1								#   0
 sync_relay_log						 =1								#   10000
 sync_relay_log_info					 =1								#   10000
 sync_master_info					 =1								#	10000
@@ -84,13 +85,14 @@ slave_parallel_workers               =4                             #    0
 #plugin_load_add                     =semisync_master.so            #
 #plugin_load_add                     =semisync_slave.so             #
 binlog_group_commit_sync_delay       =100                           #    500(0.05%秒)、默认值0
-binlog_group_commit_sync_no_delay_count = 10                        #    0
+binlog_group_commit_sync_no_delay_count = 20                        #    0
 #binlog_order_commits				 =off							#	 0
 slave_net_timeout					 =15							#	 60
 
 ####: for write_set
-binlog_transaction_dependency_tracking         =writeset_session			#  write_set
+binlog_transaction_dependency_tracking         =writeset					#  writeset_session
 transaction_write_set_extraction               =XXHASH64					#  XXHASH64
+slave_preserve_commit_order					   =0							#  1
 
 ####: for innodb
 innodb_data_file_path                           =ibdata1:1024M:autoextend    #	ibdata1:12M:autoextend

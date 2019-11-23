@@ -70,6 +70,7 @@ skip_slave_start                     =1                             #
 master_info_repository               =table                         #	file
 relay_log_info_repository            =table                         #	file
 relay_log_recovery					 =1								#   0
+relay_log_purge						 =1								#   0
 sync_relay_log						 =1								#   10000
 sync_relay_log_info					 =1								#   10000
 sync_master_info					 =1								#	10000
@@ -86,8 +87,9 @@ binlog_group_commit_sync_no_delay_count = 10                        #    0
 slave_net_timeout					 =15							#	 60
 
 ####: for write_set
-binlog_transaction_dependency_tracking         =writeset_session			#  write_set
+binlog_transaction_dependency_tracking         =writeset					#  writeset_session
 transaction_write_set_extraction               =XXHASH64					#  XXHASH64
+slave_preserve_commit_order					   =0							#  1
 
 ####: for innodb
 innodb_data_file_path                           =ibdata1:1024M:autoextend    #	ibdata1:12M:autoextend
