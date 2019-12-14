@@ -19,8 +19,12 @@ RUN if [ ! -f /etc/ld.so.conf.d/mysql.conf ];then echo '/usr/local/mysql/lib' > 
 RUN if [ ! -d /usr/include/mysql ];then ln -s /usr/local/mysql/include/ /usr/include/mysql ;fi
 RUN if [ -f /etc/man_db.conf -a `grep  '/usr/local/mysql/man' /etc/man_db.conf|wc  -l` -eq 0 ];then sed -ri '22a \MANDATORY_MANPATH /usr/local/mysql/man'  /etc/man_db.conf ;fi
 RUN echo -e '[mysql]\nno-auto-rehash\nprompt="\\u@\\h [\\d]>"' > /etc/my.cnf
+RUN echo "*                -       nofile          65535" >>/etc/security/limits.conf
+RUN echo "*                -       nproc          65535" >>/etc/security/limits.conf
 COPY my.cnf /data/mysql/$datadir 
-ADD key.tar.gz /root/.ssh
+COPY sysctl.conf /etc/ 
+COPY oneinstack.sh /etc/profile.d/
+ADD key.tar.gz /root/.ssh 
 RUN chmod +x  /etc/rc.d/rc.local  &&  \
     echo "sed  -ri  '16s/3306/'\`date +%N|cut -c 1-5\`'/g'  /data/mysql/$datadir/my.cnf " >> /etc/rc.d/rc.local && \
 	echo "/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/$datadir/my.cnf  --initialize-insecure " >> /etc/rc.d/rc.local && \
