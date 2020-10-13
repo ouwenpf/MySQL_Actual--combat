@@ -101,6 +101,18 @@ sysctl -w net.ipv4.tcp_tw_recycle = 0
 sysctl -w vm.swappiness=5
 sysctl -w vm.dirty_background_ratio=5
 sysctl -w vm.dirty_ratio=10
+
+
+--systcl.conf
+net.ipv4.tcp_max_syn_backlog = 819200
+net.core.netdev_max_backlog = 500000
+net.core.somaxconn = 4096
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_tw_recycle = 0
+vm.swappiness=5 
+vm.dirty_background_ratio=5
+vm.dirty_ratio=10
 ```
 
 ### 初始化故障排查

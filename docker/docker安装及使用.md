@@ -3,6 +3,7 @@
 - 安装配置
 ```
 安装yum源
+yum install yum-config-manager   -y
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 国内也可以使用阿里镜像
 yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
@@ -26,6 +27,15 @@ vim  /etc/docker/daemon.json
 registry-mirrors:镜像仓库，可以有多个，用逗号隔开，如"registry-mirrors":["https://rdtmp7tw.mirror.aliyuncs.com","https://registry.docker-cn.com"]
 data-root：镜像的存放地点
 
+systemctl start docker.service
+docker load  < source-centos7-20200213.tar
+docker tag ff54e48932a6 mysql/centos7:latest
+docker network create --subnet=10.0.0.0/16 mysqlnet
+
+
+docker run -itd -v /data/tools:/tools  -v /application:/application -v  /etc/resolv.conf:/etc/resolv.conf   --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name mysq8-1 -h note8-1 mysql8-21:v1  /usr/sbin/init
+docker run -itd   -v /application:/application -v  /etc/resolv.conf:/etc/resolv.conf  --net mysqlnet --ip 10.0.8.11 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name mysql8-1 -h note8-1 mysql/centos7:latest  /usr/sbin/init
+
 
 ```
 [镜像地址](https://hub.docker.com/)
@@ -42,10 +52,8 @@ docker
 		rmi:移除一个或多个镜像
 		prune:移除未使用的镜像,没有被标记或被任何容器引用
 		tag:创建一个引用镜像标记的镜像
-		export:导出容器文件系统到tar归档文件,使用重定向
-		import:导入容器文件系统到归档文件创建镜像
-		save:保存一个或多个重定向到tar归档文件
-		load:加载镜像输入来自tar归档文件
+		save:保存一个或多个重定向到tar归档文件   docker save  镜像名称 > 新镜像名称.tar
+		load:加载镜像输入来自tar归档文件   docker load < 镜像名称.tar
 ```
 
 - 创建容器常用选项
@@ -85,8 +93,15 @@ docker [container]
 		top:显示容器运行的进程
 		update:更新一个或者多个容器配置
 		stop/start/restart:停止/启动/重启容器
-		rm:删除容器
+		rm:删除容器  docker rm -f  `docker ps -qa`
 		
+```
+
+- 构建镜像
+```
+docker build -t mysql8-19:v1 -f Dockfile[默认此文件名称] [上下文:dockerfile文件中引用的文件]
+如：docker build -t mysql8-19:v1  .
+
 ```
 
 - 容器数据挂载
@@ -119,3 +134,4 @@ docker run  -itd  --net lnmp  -p8080:80 --mount type=bind,src=/data/wwwroot,dst=
 4. 下载wordpress到对应的目录
 wget -c  https://cn.wordpress.org/latest-zh_CN.tar.gz
 ```
+

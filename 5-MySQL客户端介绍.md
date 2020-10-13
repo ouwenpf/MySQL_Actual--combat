@@ -1,4 +1,8 @@
-# MySQL客户端
+'
+
+ash table size 26041, node heap has 0 buffer(s)
+Hash table size 26041, ah table size 26041, node heap has 0 buffer(s)
+Hash table size 26041, '
 
 ## mysql客户端程序
 
@@ -16,7 +20,7 @@
 此方法常用语远程登录
 
 2. mysql -S /tmp/mysql3306.sock -p[password]  
-此方法用于本地登录socket方式，没有指定用户使用当前的用户，前提是mysql中账户需要有此用户    
+此方法用于本地登录socket方式，没有指定用户使用当前的用户(系统的当前用户)，前提是mysql中账户需要有此用户    
 mysql --defaults-file=[file] -S /tmp/mysql3306.sock -p[password]指定客户端配置文件
 
 3. mysql --login-path=[label]  
