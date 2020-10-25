@@ -25,7 +25,7 @@ MySQL相关的日志非常长，列举出工作中重要的和常用的日志文
 - InnoDB层
 	- redo
 	- undo  
-		- innochecksum -S可以解析ibdata文件
+		- innochecksum -S可以解析ibdata文件(Undo log page*16K/1024得出多少M,进而可以计算出每个小时的大小)
 	
 ![](images/6-MySQL日志结构/MySQL日志结构02.jpg)
 
