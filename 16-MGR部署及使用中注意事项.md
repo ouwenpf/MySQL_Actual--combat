@@ -1,7 +1,7 @@
 # MGR环境部署
 
-如果要使用MGR，强烈推荐MySQL8.0，其原因是因为官方主要保障的特性为MGR，如果有bug官方主要在8.0中进行修复，5.7中如果使用请使用5.7.22及以上的版本，MGR快速切换，数据一致性好，并行写入等特点
-
+如果要使用MGR，强烈推荐MySQL8.0，其原因是因为官方主要保障的特性为MGR，如果有bug官方主要在8.0中进行修复，5.7中如果使用请使用5.7.22及以上的版本，MGR快速切换，数据一致性好，并行写入等特点  
+目前业界靠谱的两种方案:GTID+ROW+并行复制+增强半同步,MGR(MySQL Innodb Cluster)
 
 
 ## 基本配置
@@ -17,12 +17,14 @@ binlog_checksum=NONE
 log_slave_updates=ON 
 binlog_format=ROW
 --------------------------------------------
+slave_preserve_commit_order=1   
 transaction_write_set_extraction=XXHASH64  
 loose-group_replication_group_name="3db33b36-0e51-409f-a61d-c99756e90155"  
-loose-group_replication_start_on_boot=off
+loose-group_replication_start_on_boot=off  
 loose-group_replication_local_address= "172.18.0.11:23306"
 loose-group_replication_group_seeds= "172.18.0.11:23306,172.18.0.12:23306,172.18.0.12:23307"
 loose-group_replication_bootstrap_group= off
+#multi-master 
 #loose-group_replication_single_primary_mode=off
 #loose-group_replication_enforce_update_everywhere_checks=on
 以上参数直接加入我所提供的my.cnf文件中，最后两行是否开放mutil-master模式
@@ -37,7 +39,7 @@ install plugin group_replication soname 'group_replication.so';
 show plugins;查询加载的插件
 set global group_replication_bootstrap_group=on;注意只是开始的第一个节点  
 start group_replication;   
-select  * from performance_schema.replication_group_members;查询节点成员
+select  \* from performance\_schema.replication\_group\_members;查询节点成员
 ```
 目前支持9个节点，server_id=1-9，不能增多的原因是因为MGR有写放大，在一个节点上写入，再其它节点上也需要同时写入，写入的时候有个回包的过程，如果节点太多，回包也会很多，整个机器吞吐量下降，容易发生timeout超时，使集群容易崩溃。
 

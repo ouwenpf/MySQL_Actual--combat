@@ -34,7 +34,7 @@ docker network create --subnet=10.0.0.0/16 mysqlnet
 
 
 
-docker run -itd  -v /data/tools:/tools  -v /application:/application -v  /etc/resolv.conf:/etc/resolv.conf  --net mysqlnet --ip 10.0.8.11 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name mysql8_1 -h note8_1 mysql8/centos7:v1  /usr/sbin/init
+docker run -itd  -v /data/tools:/data/tools  -v /application:/application -v  /etc/resolv.conf:/etc/resolv.conf  -v /etc/hosts:/etc/hosts -v /sys/fs/cgroup:/sys/fs/cgroup  --net mysqlnet --ip 10.0.8.11 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name mysql8_1 -h note8_1 mysql8/centos7:latest  /usr/sbin/init
 
 
 ```

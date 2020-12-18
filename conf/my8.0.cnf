@@ -48,7 +48,7 @@ expire_logs_days                    =7                              #	0
 binlog_cache_size                   =65536                          #	65536(64k)
 #binlog_checksum                    =none                           #	CRC32
 sync_binlog                         =1                              #	1
-slave-preserve-commit-order         =ON                             #
+slave_preserve_commit_order         =ON                             #
 
 ####: for error-log
 log_error                           =error.log                      #	/usr/local/mysql/data/localhost.localdomain.err

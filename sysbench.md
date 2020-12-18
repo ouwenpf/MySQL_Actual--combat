@@ -21,9 +21,9 @@ sudo yum -y install sysbench
 
 ```
 
-/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=192.168.5.51 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure   --tables=10 --table_size=10000 --mysql_storage_engine=Innodb cleanup
-/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=192.168.5.51 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --mysql_storage_engine=Innodb prepare
-/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=192.168.5.51 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --mysql_storage_engine=Innodb --threads=10 --time=100  --warmup-time=300 --report-interval=10 --rand-type=uniform run
+/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure   --tables=10 --table_size=10000 --mysql_storage_engine=Innodb cleanup
+/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --mysql_storage_engine=Innodb prepare
+/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --mysql_storage_engine=Innodb --threads=10 --time=100  --warmup-time=300 --report-interval=10 --rand-type=uniform run
 
 相关参数请参考github文档
 ```
