@@ -1,7 +1,9 @@
 [client]
 port            = 3306
+socket=/tmp/mysql3306.sock
 
 [mysql]
+socket=/tmp/mysql3306.sock
 no-auto-rehash
 prompt="\\u@\\h [\\d]>"
 #prompt="(\\u@\\h_\R:\m:\\s)[\\d]>"
@@ -30,7 +32,10 @@ lower_case_table_names              =1                              #	0
 secure_file_priv                    =/tmp/                          #	null
 open_files_limit                    =65536                          #   1024
 max_connections                     =1000                           #   151
-thread_cache_size                   =64                             #   9
+max_connect_errors					=100000							#   100
+wait_timeout						=300							#   28800
+interactive_timeout					=300							#   28800
+thread_cache_size                   =64                             #   9(线程缓存)
 table_open_cache                    =81920                          #   2000
 table_definition_cache              =4096                           #   1400
 table_open_cache_instances          =64                             #   16
@@ -61,6 +66,8 @@ slow_query_log                      =on                             #    off
 slow_query_log_file                 =slow.log                       #    hostname.log
 #log_queries_not_using_indexes       =on                            #    off
 long_query_time                     =1.000000                       #    10.000000
+log_queries_not_using_indexes 		=1								#    off
+log_throttle_queries_not_using_indexes = 60							#    0
 
 ####: for gtid
 #gtid_executed_compression_period    =1000                         #	1000
