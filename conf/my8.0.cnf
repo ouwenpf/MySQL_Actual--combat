@@ -64,10 +64,9 @@ general_log_file                    =general.log                    #   hostname
 ####: for slow query log
 slow_query_log                      =on                             #    off
 slow_query_log_file                 =slow.log                       #    hostname.log
-#log_queries_not_using_indexes       =on                            #    off
-long_query_time                     =1.000000                       #    10.000000
-log_queries_not_using_indexes 		=1								#    off
-log_throttle_queries_not_using_indexes = 60							#    0
+long_query_time                     =0.01                      #    10.000000
+log_queries_not_using_indexes 		=on								#    off
+log_throttle_queries_not_using_indexes = 10							#    0
 
 ####: for gtid
 #gtid_executed_compression_period    =1000                         #	1000

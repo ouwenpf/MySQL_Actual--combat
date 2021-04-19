@@ -56,7 +56,7 @@ GRANT ALL  on *.* to 'cluster'@'10.0.8.%'  with grant option;
  - session Represents the currently open MySQL session.
  - shell   Gives access to general purpose functions and properties.
  - sys     Gives access to system specific parameters.
- - util    Global object that groups miscellaneous tools like upgrade checker
+ - util    Global object that groumiscellaneous tools like upgrade checker
            and JSON import.
  
  2.  dba.help()查询dba下面的操作信息,mysql,shell,sys等相关操作均可以通过此方法查询帮助信息
