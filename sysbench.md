@@ -20,6 +20,35 @@ sudo yum -y install sysbench
 ## 使用
 
 ```
+# sysbench --help
+        Usage:
+            sysbench [options]... [testname] [command]
+             
+        Commands implemented by most tests: prepare run cleanup help
+        sysbench 压测需要 3 个步骤：
+        prepare(准备数据) -> run(运行测试) -> cleanup(清理数据)
+        General options:
+             --threads=N                    #创建测试线程的数量，默认值为 1
+             --events=N                    #限制事件的总数量，0 表示不限制，默认值为 0
+             --time=N                        #限制总共执行多长时间，单位是秒，默认是 10
+             --forced-shutdown=STRING        #超过--time 后，等待多长时间强制关闭，单位是秒，默认 off
+             --thread-stack-size=SIZE        #每个线程的堆大小，默认是 64k
+             --rate=N                        #平均事务率，0 表示不限制
+             --report-interval=N            #定期报告统计数据的时间间隔，单位秒，默认为 0，表示不显示中间报告。
+              --report-checkpoints=[LIST,...]    #转储完整的统计信息并在指定的时间点重置所有计数器。默认为关闭
+              --config-file=FILENAME        #可以把命令参数写到一个文件中，指定这个文件
+		    --delete_inserts                每个事务包含delete和insert的个数，默认值1
+
+
+            mysql options:
+              --mysql-host=[LIST,...]        #  MySQL 服务器地址 ，默认 localhost
+              --mysql-port=[LIST,...]        # MySQL 服务器端口 ，默认 3306
+              --mysql-socket=[LIST,...]        # MySQL socket 文件
+              --mysql-user=STRING            # MySQL user 默认 sbtest
+              --mysql-password=STRING        # MySQL password 默认为空
+              --mysql-db=STRING                # MySQL database name 默认 sbtest
+              --mysql-compression[=on|off]    #是否使用压缩，默认为 off
+
 
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure   --tables=10 --table_size=10000 --mysql_storage_engine=Innodb cleanup
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --mysql_storage_engine=Innodb prepare
@@ -27,6 +56,13 @@ sudo yum -y install sysbench
 
 相关参数请参考github文档
 ```
+
+
+
+
+
+
+
 
 ## 分析报表
 
@@ -59,7 +95,51 @@ Threads fairness:
     execution time (avg/stddev):   3601.0751/0.19
 
 ```
+
+## sysbench测试腾讯云TDSQL
+![](images/sysbench/01.jpg)  
+
+```
+cp  oltp_common.lua  groupshard.lua
+vim groupshard.lua
+
+190    print(string.format("Creating table 'sbtest%d'...", table_num))
+191    extra_table_options = extra_table_options .. " shardkey=id"        #添加一行
+
+200       table_num, id_def, id_index_def, engine_def,
+201       sysbench.opt.create_table_options)    #sysbench.opt.create_table_options修改为：extra_table_options
+
+203    con:query(query)
+204    con:query("select sleep(10)")                    #添加一行
+210    if sysbench.opt.auto_inc then
+211       query = "INSERT IGNORE INTO sbtest" .. table_num .. "(k, c, pad) VALUES"     #增加IGNORE
+212    else
+213       query = "INSERT IGNORE INTO sbtest" .. table_num .. "(id, k, c, pad) VALUES"  #增加IGNORE
+
+
+
+/usr/local/bin/sysbench  /usr/local/share/sysbench/groupshard.lua    --mysql-host=172.16.5.2  --mysql-port=3306 --mysql-user=test --mysql-password=Gameads@2021  --mysql-db=test   --tables=10 --table_size=1000000 --mysql_storage_engine=Innodb cleanup
+
+/usr/local/bin/sysbench  /usr/local/share/sysbench/groupshard.lua    --mysql-host=172.16.5.2  --mysql-port=3306 --mysql-user=test --mysql-password=Gameads@2021  --mysql-db=test   --tables=10 --table_size=1000000 --mysql_storage_engine=Innodb prepare
+
+/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=172.16.5.2 --mysql-port=3306 --mysql-user=test --mysql-password=Gameads@2021 --mysql-db=test --tables=10 --table_size=10000 --mysql_storage_engine=Innodb --threads=10 --time=100  --warmup-time=10 --report-interval=10 --rand-type=uniform run
+
+```
 ## sysbench其它压测功能
-[其它测试](http://wangshengzhuang.com/2017/05/22/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3/MySQL/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/Sysbench%E8%BF%9B%E8%A1%8CCPU%20%E5%86%85%E5%AD%98%20IO%20%E7%BA%BF%E7%A8%8B%20mutex%E6%B5%8B%E8%AF%95%E4%BE%8B%E5%AD%90/)
+[其它测试](https://www.iorisun.com/archives/705//)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
