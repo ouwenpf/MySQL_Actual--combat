@@ -1,6 +1,6 @@
 # sysbench 
-[参考资料](https://github.com/akopytov/sysbench)
-
+[sysbench下载](https://github.com/akopytov/sysbench)   
+[参考资料](https://www.cnblogs.com/chenmh/p/5866058.html)
 ## 安装
 ```
 编译安装：
@@ -21,33 +21,61 @@ sudo yum -y install sysbench
 
 ```
 # sysbench --help
-        Usage:
-            sysbench [options]... [testname] [command]
-             
-        Commands implemented by most tests: prepare run cleanup help
-        sysbench 压测需要 3 个步骤：
-        prepare(准备数据) -> run(运行测试) -> cleanup(清理数据)
-        General options:
-             --threads=N                    #创建测试线程的数量，默认值为 1
-             --events=N                    #限制事件的总数量，0 表示不限制，默认值为 0
-             --time=N                        #限制总共执行多长时间，单位是秒，默认是 10
-             --forced-shutdown=STRING        #超过--time 后，等待多长时间强制关闭，单位是秒，默认 off
-             --thread-stack-size=SIZE        #每个线程的堆大小，默认是 64k
-             --rate=N                        #平均事务率，0 表示不限制
-             --report-interval=N            #定期报告统计数据的时间间隔，单位秒，默认为 0，表示不显示中间报告。
-              --report-checkpoints=[LIST,...]    #转储完整的统计信息并在指定的时间点重置所有计数器。默认为关闭
-              --config-file=FILENAME        #可以把命令参数写到一个文件中，指定这个文件
-		    --delete_inserts                每个事务包含delete和insert的个数，默认值1
+--oltp-test-mode=STRING                    测试类型：simple(简单select测试),complex(事务测试),nontrx(非事务测试),sp(存储过程) ；默认complex
+  --oltp-reconnect-mode=STRING             连接类型：session(每个线程到测试结束不重新连接),transaction(执行每个事务重新连接),query(每一个查询重新连接),random(随机)；默认 [session]
+  --oltp-sp-name=STRING                    指定执行测试的存储过程名
+  --oltp-read-only=[on|off]                仅执行select测试，默认关闭
+  --oltp-avoid-deadlocks=[on|off]          更新过程中忽略死锁，默认[off]
+  --oltp-skip-trx=[on|off]                 语句以bigin/commit开始结尾，默认[off]
+  --oltp-range-size=N                      范围查询的范围大小，默认 [100]，例如begin 100 and 200
+  --oltp-point-selects=N                   单个事务中select查询的数量，默认 [10]
+  --oltp-use-in-statement=N                每个查询中主键查找(in 10个值)的数量，默认 [0]
+  --oltp-simple-ranges=N                   单个事务中执行范围查询的数量(SELECT c  FROM sbtest WHERE id BETWEEN  N AND  M)，默认[1]
+  --oltp-sum-ranges=N                      单个事务中执行范围sum查询的数量，默认 [1]
+  --oltp-order-ranges=N                    单个事务中执行范围order by查询的数量，默认[1]
+  --oltp-distinct-ranges=N                 单个事务中执行范围distinct查询的数量，默认[1]
+  --oltp-index-updates=N                   单个事务中执行索引更新的操作的数量，默认[1]
+  --oltp-non-index-updates=N               单个事务中执行非索引更新操作的数量，默认[1]
+  --oltp-nontrx-mode=STRING                指定单独非事务测试类型进行测试，默认select {select, update_key, update_nokey, insert, delete} [select]
+  --oltp-auto-inc=[on|off]                 id列默认自增，默认[on]
+  --oltp-connect-delay=N                   指定每一次重新连接延时的时长，默认1秒 [10000]
+  --oltp-user-delay-min=N                  minimum time in microseconds to sleep after each request [0]
+  --oltp-user-delay-max=N                  maximum time in microseconds to sleep after each request [0]
+  --oltp-table-name=STRING                 指定测试的表名，默认[sbtest]
+  --oltp-table-size=N                      指定表的记录大小，默认[10000]
+  --oltp-dist-type=STRING                  随机数分布状态。uniform(均匀分布)、gauss(高斯分布)、special(特殊分布)，默认 [special]
+  --oltp-dist-iter=N                       number of iterations used for numbers generation [12]
+  --oltp-dist-pct=N                        启用百分比特殊分布，默认 [1]
+  --oltp-dist-res=N                        special 百分比[75]
+  --oltp-point-select-mysql-handler=[on|off] Use MySQL HANDLER for point select [off]
+  --oltp-point-select-all-cols=[on|off]    select查询测试时select所有列，默认[off]
+  --oltp-secondary=[on|off]                索引不是主键索引而是二级索引，默认[off]
+  --oltp-num-partitions=N                  指定表分区的数量，默认 [0]
+  --oltp-num-tables=N                      指定测试表的数量，默认[1]
+General database options:
+  --db-driver=STRING  指定测试数据库类型，默认mysql
+  --db-ps-mode=STRING prepared statements usage mode {auto, disable} [auto]
 
+mysql options:
+  --mysql-host=[LIST,...]       MySQL server host [localhost]
+  --mysql-port=N                MySQL server port [3306]
+  --mysql-socket=STRING         MySQL socket
+  --mysql-user=STRING           MySQL user [sbtest]
+  --mysql-password=STRING       MySQL password []
+  --mysql-db=STRING             MySQL database name [sbtest]
+  --mysql-table-engine=STRING   storage engine to use for the test table {myisam,innodb,bdb,heap,ndbcluster,federated} [innodb]
+  --mysql-engine-trx=STRING     whether storage engine used is transactional or not {yes,no,auto} [auto]
+  --mysql-ssl=[on|off]          use SSL connections, if available in the client library [off]
+  --myisam-max-rows=N           max-rows parameter for MyISAM tables [1000000]
+  --mysql-create-options=STRING additional options passed to CREATE TABLE []
 
-            mysql options:
-              --mysql-host=[LIST,...]        #  MySQL 服务器地址 ，默认 localhost
-              --mysql-port=[LIST,...]        # MySQL 服务器端口 ，默认 3306
-              --mysql-socket=[LIST,...]        # MySQL socket 文件
-              --mysql-user=STRING            # MySQL user 默认 sbtest
-              --mysql-password=STRING        # MySQL password 默认为空
-              --mysql-db=STRING                # MySQL database name 默认 sbtest
-              --mysql-compression[=on|off]    #是否使用压缩，默认为 off
+oltp测试主要会有以下相关参数的测试,,其它相关参数默认即可，有需求也可以自定义：
+
+--mysql-engine-trx=STRING     指定不同的存储引擎测试。
+--oltp-test-mode=STRING       测试类型：simple(简单select测试),complex(事务测试),nontrx(非事务测试),sp(存储过程) ；默认complex
+--oltp-sp-name=STRING         指定存储过程进行语句测试
+--oltp-table-size=N           指定表的记录大小，默认[10000]
+--oltp-num-tables=N           指定测试表的数量，默认[1]
 
 
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure   --tables=10 --table_size=10000 --mysql_storage_engine=Innodb cleanup
