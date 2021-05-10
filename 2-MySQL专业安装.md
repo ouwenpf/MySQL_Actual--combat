@@ -35,6 +35,9 @@ net.core.somaxconn = 4096
 net.ipv4.tcp_tw_reuse = 1
 net.ipv4.tcp_timestamps = 1
 net.ipv4.tcp_tw_recycle = 0快速关闭，在直接对外服务器是一定不能打开的(经过net上网的不能保证每个客户端机器的时间是一致的)，内网可以打开
+
+fstab中设置如下设
+/dev/sdb  /data   xfs   defaults,noatime,nodiratime,nobarrier
 ```
 - IO调度
 ```
