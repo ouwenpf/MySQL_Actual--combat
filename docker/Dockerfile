@@ -29,8 +29,7 @@ COPY oneinstack.sh /etc/profile.d/
 RUN chmod +x  /etc/rc.d/rc.local  \
 && echo "sed  -ri  '/sed/,/insecure/d'  /etc/rc.local" >> /etc/rc.d/rc.local \
 && echo "sed  -ri  '16s/3306/'\`date +%N|cut -c 1-5\`'/g'  /data/mysql/$datadir/my.cnf " >> /etc/rc.d/rc.local \
-&& echo "/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/$datadir/my.cnf  --initialize-insecure && /usr/local/mysql/bin/mysqld_safe --defaults-file=/data/
-mysql/$datadir/my.cnf  & " >> /etc/rc.d/rc.local
+&& echo "/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/$datadir/my.cnf  --initialize-insecure && /usr/local/mysql/bin/mysqld_safe --defaults-file=/data/mysql/$datadir/my.cnf  & " >> /etc/rc.d/rc.local
 	
 	
 WORKDIR /data/mysql/$datadir

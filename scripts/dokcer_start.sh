@@ -13,7 +13,7 @@ docker run -itd  -v /data/share:/data/share -p6379:6379  -v /data/app:/applicati
 
 
 ## 创建Dockerfile文件
-# 宿主机上创建/data/app/mysql-8.0.24-linux-glibc2.12-x86_64        ln -s  ./data/app/数据库二进制文件  ./mysql-8
+# 宿主机上拷贝mv  /data/app/mysql-8.0.24-linux-glibc2.12-x86_64    data/app/mysql-8.0.24     ln -s  ./mysql-8.0.24  ./mysql-8
 # 其它相关软件亦是如此
 
 #- 构建镜像

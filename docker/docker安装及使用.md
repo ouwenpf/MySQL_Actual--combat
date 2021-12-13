@@ -90,6 +90,7 @@ docker [container]
 		update:更新一个或者多个容器配置
 		stop/start/restart:停止/启动/重启容器
 		rm:删除容器  docker rm -f  `docker ps -qa`
+		docker exec  -it mysql8   /bin/bash
 		
 ```
 
