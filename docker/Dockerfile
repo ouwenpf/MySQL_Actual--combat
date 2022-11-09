@@ -1,8 +1,8 @@
 FROM source/centos7:latest
 
-ENV basedir mysql-8
-ENV mysql_shell mysql-shell
-ENV mysql_router mysql-router
+ENV basedir mysql-8.0
+ENV mysql_shell mysql_shell
+ENV mysql_router mysql_router
 ENV datadir mysql3306
 
 	
@@ -30,7 +30,9 @@ RUN chmod +x  /etc/rc.d/rc.local  \
 && echo "sed  -ri  '/sed/,/insecure/d'  /etc/rc.local" >> /etc/rc.d/rc.local \
 && echo "sed  -ri  '16s/3306/'\`date +%N|cut -c 1-5\`'/g'  /data/mysql/$datadir/my.cnf " >> /etc/rc.d/rc.local \
 && echo "/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/$datadir/my.cnf  --initialize-insecure && /usr/local/mysql/bin/mysqld_safe --defaults-file=/data/mysql/$datadir/my.cnf  & " >> /etc/rc.d/rc.local
-	
+
+#5.6初始化方式需要替换上面一行
+#/usr/local/mysql/scripts/mysql_install_db  --user=mysql  --basedir=/usr/local/mysql/  --datadir=/data/mysql/mysql3306/data 
 	
 WORKDIR /data/mysql/$datadir
 EXPOSE 3306 33060 

@@ -78,6 +78,10 @@ oltp测试主要会有以下相关参数的测试,,其它相关参数默认即�
 --oltp-num-tables=N           指定测试表的数量，默认[1]
 
 
+create database pressure;
+create user 'sysbench'@'%' identified by '123456';
+grant all on pressure.* to   'sysbench'@'%' ;
+
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure   --tables=10 --table_size=10000 --mysql_storage_engine=Innodb cleanup
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --mysql_storage_engine=Innodb prepare
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --mysql_storage_engine=Innodb --threads=10 --time=100  --warmup-time=300 --report-interval=10 --rand-type=uniform run
@@ -155,6 +159,7 @@ vim groupshard.lua
 ```
 ## sysbench其它压测功能
 [其它测试](https://www.iorisun.com/archives/705//)
+https://www.cnblogs.com/gonghr/p/14956461.html
 
 
 

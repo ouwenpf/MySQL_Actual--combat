@@ -81,7 +81,7 @@ slave_net_timeout					 =15							#	 60
 
 
 ####: for innodb
-innodb_data_file_path                           =ibdata1:1024M:autoextend    #	ibdata1:12M:autoextend
+innodb_data_file_path                           =ibdata1:12M:autoextend    #	ibdata1:12M:autoextend
 innodb_buffer_pool_filename                     =ib_buffer_pool             #	ib_buffer_pool
 innodb_log_group_home_dir                       =./                         #	./
 innodb_log_files_in_group                       =4                       #	2
@@ -113,7 +113,7 @@ innodb_doublewrite                              =on                         #	on
 innodb_log_buffer_size                          =128M                       #	16777216(16M)
 innodb_flush_log_at_timeout                     =1                          #	1
 innodb_flush_log_at_trx_commit                  =1                          #	1
-innodb_buffer_pool_size                         =8192M                      #	134217728(128M)
+innodb_buffer_pool_size                         =1024M                      #	134217728(128M)
 innodb_buffer_pool_instances                    =4
 #--------innodb scan resistant
 innodb_old_blocks_pct                           =37                         #    37

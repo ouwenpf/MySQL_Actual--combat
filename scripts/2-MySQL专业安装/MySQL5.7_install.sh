@@ -35,7 +35,7 @@ if [ `ping 8.8.8.8 -c 5 | grep "min/avg/max" -c` = '1' ]; then
 	yum install -y wget 
         wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo  
         wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  
-        yum install -y numactl-libs libaio man bash-completion man-pages-zh-CN.noarch iptables-services lrzsz tree screen telnet dosunix nmap htop openssl openssh openssl-devel bind-utils iotop nc dstat yum-utils*  psacct
+        yum install -y psmisc sysstat sysvinit-tools-2.88-14.dsf.el7.x86_64 numactl-libs libaio man bash-completion man-pages-zh-CN.noarch iptables-services lrzsz tree screen telnet dosunix nmap htop openssl openssh openssl-devel bind-utils iotop nc dstat yum-utils*  psacct
 else
     	echo "The network connection failed and the installation was terminated!"
     	exit

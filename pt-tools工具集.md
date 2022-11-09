@@ -37,3 +37,5 @@ pt-mysql-summary  --user=cluster --host=10.0.8.11 --password=123456
 
 
 - pt-online-schema-change
+
+https://www.jianshu.com/p/a3504721cc8c
