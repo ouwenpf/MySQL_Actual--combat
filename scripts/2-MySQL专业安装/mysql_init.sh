@@ -6,7 +6,7 @@ function_package(){
 		yum install -y wget 
 		wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo  
 		wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  
-		yum install -y numactl-libs libaio man bash-completion man-pages-zh-CN.noarch iptables-services lrzsz tree screen telnet dosunix nmap htop openssl openssh openssl-devel bind-utils iotop nc dstat yum-utils*  psacct glibc-common strace
+		yum install -y numactl-libs libaio libaio-devel man bash-completion man-pages-zh-CN.noarch iptables-services lrzsz tree screen telnet dosunix nmap htop openssl openssh openssl-devel bind-utils iotop nc dstat yum-utils*  psacct glibc-common strace
 	else
 		echo "The network connection failed and the installation was terminated!"
 		exit

@@ -1,33 +1,77 @@
-#########################################################################
 # File Name: MySQL_Install.sh
 # Author: Owen
 # mail: 
-# Created Time: 2019-11-07 wed 
-# package：mysql-5.7.24-linux-glibc2.12-x86_64
+# update Time: 2022-11-13 Sun 
+# package：mysql-x.x.xx-linux-glibc2.12-x86_64
 # Discription: mkdir /application  tar
 #########################################################################
 
 #!/bin/sh
 #
-base_dir="/application/mysql-8.0.15"
+install_file="$1"
+install_dir="/application"
+base_dir="$install_dir/`echo "$1"|awk -F ".tar" '{print $1}'`"
+data_dir="/data/mysql"
 ip_str=`ip a|grep -A 3 'mtu 1500'|awk  -F '[ /]+' 'NR==3{print $3}'|awk -F '.' '{print $NF}'`
+
 #server_id=${ip_str: -3}
-server_id=${ip_str}$1
+server_id=${2}${ip_str}
 
-if [ $# -eq 0 ];then
-	 echo "Usage: $0  {3306|3307|...}"
-	 exit 
+
+if [ ! -f ./my.cnf ];then
+        echo 'file my.cnf not exist'
+        exit
 fi
 
-if [ ! -d ${base_dir} ];then
-	 echo "First create the application directory, MySQL package storage location"
-	 exit
+
+
+if [ $# -ne 2 ];then
+    echo "Usage: 请输入mysql版本安装包和指定mysql的端口号
+例如：mysql-x.x.xx-linux-glibc2.12-x86_64 3306
+输入参数个数不对,参数个数为2个
+\$2 必须为数字"
+    exit
 fi
+
+
+expr $2 "+" 0 &> /dev/null
+    if [ $? -ne 0 ];then
+	echo "\$2 is not number"
+	exit
+    fi
+
+
+
+
+if ! [ $2 -ge 3306 -a $2 -le 65535 ];then
+        echo "\$2 请输入范围为3306-65535"
+        exit
+
+fi 
+
+
+if [ ! -d ${install_dir} ];then
+	mkdir -p  ${install_dir}
+
+fi
+
+
+if [ -f ${1} ];then
+	tar xf ${1}  -C $install_dir
+else
+	echo "The installation package does not exist"
+	exit
+	 
+fi  
+
+
 
 if [ ! -f ${base_dir}/my.cnf ];then
-	echo 'file my.cnf not exist'
-	exit
+	\cp  my.cnf  ${base_dir}
+
 fi
+
+
 
 #
 env(){ 
@@ -35,7 +79,7 @@ if [ `ping 8.8.8.8 -c 5 | grep "min/avg/max" -c` = '1' ]; then
 	yum install -y wget 
         wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo  
         wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  
-        yum install -y numactl-libs libaio man bash-completion man-pages-zh-CN.noarch iptables-services lrzsz tree screen telnet dosunix nmap htop openssl openssh openssl-devel bind-utils iotop nc dstat yum-utils*  psacct
+        yum install -y libaio libaio-devel psmisc sysstat sysvinit-tools-2.88-14.dsf.el7.x86_64 numactl-libs man bash-completion man-pages-zh-CN.noarch iptables-services lrzsz tree screen telnet dosunix nmap htop openssl openssh openssl-devel bind-utils iotop nc dstat yum-utils*  psacct
 else
     	echo "The network connection failed and the installation was terminated!"
     	exit
@@ -48,22 +92,24 @@ if ! id mysql &> /dev/null ;then
 fi
 
 # 
-if [ ! -d /data/mysql/mysql$1 ];then
-	mkdir -p /data/mysql/mysql$1/{data,logs,tmp}
-	chown -R mysql.mysql /data/mysql/mysql$1
+if [ ! -d $data_dir/mysql$2 ];then
+	mkdir -p $data_dir/mysql$2/{data,logs,etc,scripts,tmp}
+	echo  "/usr/local/mysql/bin/mysqld_safe --defaults-file=/data/mysql/mysql$2/etc/my.cnf  & "> $data_dir/mysql$2/scripts/start.sh
+    echo  "/usr/local/mysql/bin/mysqladmin -S $data_dir/mysql$2/tmp/mysql$2.sock shutdown "> $data_dir/mysql$2/scripts/stop.sh
+	chown -R mysql.mysql $data_dir/mysql$2
 fi
 
 
-if [ ! -f /data/mysql/mysql$1/my.cnf ];then
+if [ ! -f $data_dir/mysql$2/etc/my.cnf ];then
 
-   	cp  ${base_dir}/my.cnf /data/mysql/mysql$1 &&\
-	sed -ri  's/3306/'$1'/g'  /data/mysql/mysql$1/my.cnf
-	sed  -ri  '16s/'$1'/'${server_id}'/g'  /data/mysql/mysql$1/my.cnf	
+   	cp  ${base_dir}/my.cnf $data_dir/mysql$2/etc &&\
+	sed -ri  's/3306/'$2'/g'  $data_dir/mysql$2/etc/my.cnf
+	sed  -ri  '16s/'$2'/'${server_id}'/g'  $data_dir/mysql$2/etc/my.cnf	
 fi
  
 
 if [ ! -d /usr/local/mysql ];then
-   	 ln -s ${base_dir}    /usr/local/mysql
+   	 ln -s ${base_dir}   /usr/local/mysql
 fi
 
 
@@ -88,10 +134,11 @@ fi
 #man_file
 if [ -f /etc/man_db.conf -a `grep  '/usr/local/mysql/man'  /etc/man_db.conf|wc  -l` -eq 0 ];then
 	sed -ri '22a \MANDATORY_MANPATH                       /usr/local/mysql/man'  /etc/man_db.conf
-
 fi
+
+
 # 
-/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/mysql$1/my.cnf  --initialize-insecure 
+/usr/local/mysql/bin/mysqld --defaults-file=$data_dir/mysql$2/etc/my.cnf  --initialize-insecure 
 sleep 5
 if [ $? -eq 0 ];then
 	echo "MySQL initialization succeeded"
@@ -101,10 +148,10 @@ else
 fi
 
 # 
-/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/mysql$1/my.cnf & &> /dev/null
+/usr/local/mysql/bin/mysqld --defaults-file=$data_dir/mysql$2/etc/my.cnf & &> /dev/null
 sleep 5
 
-if /usr/local/mysql/bin/mysql -S /tmp/mysql3306.sock  -e 'select @@server_id;' &> /dev/null;then
+if /usr/local/mysql/bin/mysql -S $data_dir/mysql$2/tmp/mysql$2.sock  -e 'select @@server_id;' &> /dev/null;then
 	echo "MySQL started successfully"
 else
 	echo "MySQL startup failed"

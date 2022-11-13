@@ -138,7 +138,7 @@ fi
 
 
 # 
-/usr/local/mysql/bin/mysqld --defaults-file=$data_dir/mysql$2/etc/my.cnf  --initialize-insecure 
+/usr/local/mysql/scripts/mysql_install_db  --user=mysql  --basedir=/usr/local/mysql/ --datadir=$data_dir/mysql$2/data 
 sleep 5
 if [ $? -eq 0 ];then
 	echo "MySQL initialization succeeded"
