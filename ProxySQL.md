@@ -3,7 +3,8 @@
 ##配置管理
 [下载地址](https://github.com/sysown/proxysql/releases)   
 [参考资料](https://github.com/sysown/proxysql)   
-[参考资料](https://blog.51cto.com/sumongodb/2130453)     
+[参考资料](https://blog.51cto.com/sumongodb/2130453)   
+[参考资料](https://proxysql.com/)   
 [参考资料](http://idber.github.io/2018/08/28-ProxySQL%20%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3%E5%8F%8A%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E3%80%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1.html)
 
 
@@ -12,7 +13,8 @@
 ```
 1.https://github.com/sysown/proxysql/releases下载最新的版本
 2. yum localinstall  -y  proxysql.rpm 安装最新的包
-3. systemctl start proxysql
+3. systemctl start proxysql(建议修改配置文件,使用proxysql  -c /data/proxysql/proxysql.cnf  > /dev/null 2>&1 & 
+方式启动)
 启动成功后：默认监听6032和6033,6032为后台管理端口，6033默认对外服务端口
 
 ```
@@ -76,27 +78,64 @@ SAVE ADMIN VARIABLES TO DISK;
 ```
 ###读写分离
 ```
-insert into mysql_replication_hostgroups(writer_hostgroup,reader_hostgroup,comment) values (10,100,'proxysql');
-insert into mysql_servers(hostgroup_id,hostname,port,max_connections) values (10,'172.18.0.11',3306,950),(10,'172.18.0.12',3306,950),(10,'172.18.0.13',3306,950);
+
+配置监控账户,需要先在mysql主库设置
+set mysql-monitor_username='monitor';
+set mysql-monitor_password='monitor';
+load mysql variables to runtime;
+save mysql variables to disk;
+
+insert into mysql_replication_hostgroups(writer_hostgroup,reader_hostgroup,comment) values (1,2,'proxysql');
+insert into mysql_servers(hostgroup_id,hostname,port,max_connections,comment) values (1,'127.0.0.1',3306,5000,'master'),(2,'127.0.0.1',3307,5000,'slave'),(2,'127.0.0.1',3308,5000,'slave');
 load mysql servers to runtime;
 save mysql servers to disk;
 
-insert into mysql_users(username,password,default_hostgroup) values ('proxysql','123456',10);
+insert into mysql_users(username,password,default_hostgroup) values ('sysbench','123456',1);
 load mysql users to runtime;
 save mysql users to disk;
 
 
-insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(1,1,'^SELECT.*FOR UPDATE$',10,1);
-insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(2,1,'^SELECT',100,1);
-insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(3,1,'^show slave status',100,1);
-match_pattern:正则匹配
+insert into mysql_query_rules (rule_id,active,username,schemaname, client_addr,match_digest,destination_hostgroup,flagIN, flagOUT,log,apply) values(1,1,NULL,NULL,NULL,'.',NULL,0,NULL,1,0);
+insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(1,1,'^SELECT.*FOR UPDATE$',1,1);
+insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(2,1,'^SELECT',2,1);
+insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(3,1,'^show slave status',2,1);
+
+
 load mysql query rules to runtime;
 save mysql  query rules to disk;
 
 
+设置开启全日志
+
+update global_variables set variable_value=1 where
+variable_name='mysql-eventslog_default_log';
+设置为json的日志格式
+
+update global_variables set variable_value=2 where
+variable_name='mysql-eventslog_format';      
+设置日志文件名
+
+update global_variables set variable_value='query.log' where
+variable_name='mysql-eventslog_filename';
+
+load mysql variables to runtime;
+save mysql variables to disk;
+设置隔离级别
+set mysql-default_tx_isolation='REPEATBALE READ';
+
+
+设置字符集
+set mysql-default_charset='utf8mb4';
+
+load mysql variables to runtime;
+save mysql variables to disk;
+
+
 设置远程管理账户，默认只能是本地
-set admin-admin_credentials = "admin:admin;test:test"
+set admin-admin_credentials = "admin:admin;radmin:radmin"
 load admin variables to runtime;
+save admin variables to disk;
+
 ```
 ###重要的表信息
 ```

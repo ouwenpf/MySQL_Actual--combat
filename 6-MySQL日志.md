@@ -151,7 +151,8 @@ GTID：为每个写的动作做一个唯一的编号
 ```
 - sys.statement_analysis  
    此表有详细SQL数据信息(多少SQL语句请求，高峰期时段SQL，当前慢查询的大小，数量等)，具体分析请读MySQL监控分析章节
-- set persist持久化，属于8.0修改变量的新特性，存放于文件mysql-auto.cnf，下次重启数据库后会加载
+- set persist持久化，属于8.0修改变量的新特性(set persist max_connections=1001;
+)，存放于文件mysql-auto.cnf，下次重启数据库后会加载
 - 相关的分析工具
 	- pt-query-digest
 ### 审计日志general.log

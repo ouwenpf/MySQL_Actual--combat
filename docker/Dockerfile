@@ -10,7 +10,7 @@ RUN if [ ! -d /usr/local/mysql ];then ln -s /application/$basedir   /usr/local/m
 RUN if [ ! -d /usr/local/mysql_shell ];then ln -s /application/$mysql_shell   /usr/local/mysql_shell; fi
 RUN if [ ! -d /usr/local/mysql_router ];then ln -s /application/$mysql_router   /usr/local/mysql_router; fi
 RUN if ! id mysql &> /dev/null ;then useradd -r -M -s /sbin/nologin mysql ; fi
-RUN if [ ! -d /data/mysql/$datadir ];then mkdir -p /data/mysql/$datadir/{data,logs,etc,scripts,tmp} &&  chown -R mysql.mysql /data/mysql/$datadir ;fi
+RUN if [ ! -d /data/mysql/$datadir ];then mkdir -p /data/mysql/$datadir/{data,logs/{mysql-bin,relay-bin},etc,scripts,tmp} &&  chown -R mysql.mysql /data/mysql/$datadir ;fi
 
 RUN if [ ! -f /etc/profile.d/mysql.sh ];then echo 'export PATH=/usr/local/mysql/bin:/usr/local/mysql_shell/bin:/usr/local/mysql-router/bin:$PATH' >> /etc/profile.d/mysql.sh;fi
 RUN if [ ! -f /etc/ld.so.conf.d/mysql.conf ];then echo '/usr/local/mysql/lib' > /etc/ld.so.conf.d/mysql.conf;fi
@@ -28,7 +28,7 @@ COPY oneinstack.sh /etc/profile.d/
 #ADD key.tar.gz /root/.ssh 
 RUN chmod +x  /etc/rc.d/rc.local  \
 && echo "sed  -ri  '/sed/,/insecure/d'  /etc/rc.local" >> /etc/rc.d/rc.local \
-&& echo "sed  -ri  '16s/3306/'\`date +%N|cut -c 1-5\`'/g'  /data/mysql/$datadir/etc/my.cnf " >> /etc/rc.d/rc.local \
+&& echo "sed  -ri  '/server_id/s/3306/'\`date +%N|cut -c 1-5\`'/g'  /data/mysql/$datadir/etc/my.cnf " >> /etc/rc.d/rc.local \
 && echo "/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/$datadir/etc/my.cnf  --initialize-insecure && /usr/local/mysql/bin/mysqld_safe --defaults-file=/data/mysql/$datadir/etc/my.cnf  & " >> /etc/rc.d/rc.local
 
 #5.6初始化方式需要替换上面一行

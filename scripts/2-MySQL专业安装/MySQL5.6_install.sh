@@ -4,6 +4,7 @@
 # update Time: 2022-11-13 Sun 
 # package：mysql-x.x.xx-linux-glibc2.12-x86_64
 # Discription: mkdir /application  tar
+# MySQL的基本安装与部署地址：https://downloads.mysql.com/archives/community/
 #########################################################################
 
 #!/bin/sh
@@ -17,6 +18,142 @@ ip_str=`ip a|grep -A 3 'mtu 1500'|awk  -F '[ /]+' 'NR==3{print $3}'|awk -F '.' '
 #server_id=${ip_str: -3}
 server_id=${2}${ip_str}
 
+mycnf(){
+cat > my.cnf <<EOF
+
+[client]
+port            = 3306
+
+[mysql]
+auto-rehash
+prompt="\\u@\\h [\\d]>"
+#prompt="(\\u@\\h_\R:\m:\\s)[\\d]>"
+#pager="less -i -n -S"
+#tee=/opt/mysql/query.log
+
+[mysqld]
+####: for global
+user                                =mysql                          #	mysql
+basedir                             =/usr/local/mysql/              #	/usr/local/mysql/
+datadir                             =/data/mysql/mysql3306/data     #	/usr/local/mysql/data
+server_id                           =3306                         #	0
+port                                =3306                           #	3306
+character_set_server                =utf8                           #	latin1
+skip_character_set_client_handshake = 1								#    0
+explicit_defaults_for_timestamp     =off                            #    off
+default_time_zone		            ='+8:00'                        #	utc
+socket                              =/data/mysql/mysql3306/tmp/mysql3306.sock            #	/tmp/mysql.sock
+skip_name_resolve                   =off                            #   0
+auto_increment_increment            =1                              #	1
+auto_increment_offset               =1                              #	1
+lower_case_table_names              =1                              #	0
+secure_file_priv                    =/tmp/                          #	null
+open_files_limit                    =65536                          #   1024
+max_connections                     =1000                           #   151
+thread_cache_size                   =64                             #   9
+table_open_cache                    =81920                          #   2000
+table_definition_cache              =4096                           #   1400
+table_open_cache_instances          =64                             #   16
+max_prepared_stmt_count             =1048576                        #
+
+####: for binlog
+binlog_format                       =row                            #	row
+log_bin                             =/data/mysql/mysql3306/logs/mysql-bin                      #	off
+binlog_rows_query_log_events        =on                             #	off
+log_slave_updates                   =on                             #	off
+expire_logs_days                    =7                              #	0
+binlog_cache_size                   =65536                          #	65536(64k)
+#binlog_checksum                    =none                           #	CRC32
+sync_binlog                         =1                              #	1
+
+####: for error-log
+log_error                           =error.log                      #	/usr/local/mysql/data/localhost.localdomain.err
+
+general_log                         =off                            #   off
+general_log_file                    =general.log                    #   hostname.log
+
+####: for slow query log
+slow_query_log                      =on                             #    off
+slow_query_log_file                 =slow.log                       #    hostname.log
+#log_queries_not_using_indexes       =on                            #    off
+long_query_time                     =1.000000                       #    10.000000
+
+####: for gtid
+#gtid_executed_compression_period    =1000                         #	1000
+gtid_mode                           =on                            #	off
+enforce_gtid_consistency            =on                            #	off
+
+
+####: for replication
+skip_slave_start                     =1                             #
+master_info_repository               =table                         #	file
+relay_log_info_repository            =table                         #	file
+relay_log_recovery					 =1								#   0
+sync_relay_log						 =1								#   10000
+sync_relay_log_info					 =1								#   10000
+sync_master_info					 =1								#	10000
+slave_parallel_workers               =4                             #    0
+slave_net_timeout					 =15							#	 60
+
+
+####:replicate-ignore-db
+#replicate-ignore-db                 =mysql
+#replicate-ignore-db                 =information_schema
+#replicate-ignore-db                 =performance_schema
+
+
+
+####: for innodb
+innodb_data_file_path                           =ibdata1:12M:autoextend    #	ibdata1:12M:autoextend
+innodb_buffer_pool_filename                     =ib_buffer_pool             #	ib_buffer_pool
+innodb_log_group_home_dir                       =./                         #	./
+innodb_log_files_in_group                       =4                       #	2
+innodb_log_file_size                            =48M                       #	50331648(48M)
+innodb_file_per_table                           =on                         #	on
+innodb_online_alter_log_max_size                =128M                       #   134217728(128M)
+innodb_open_files                               =65535                      #   2000
+innodb_page_size                                =16k                        #	16384(16k)
+innodb_thread_concurrency                       =0                          #	0
+innodb_read_io_threads                          =4                          #	4
+innodb_write_io_threads                         =4                          #	4
+innodb_purge_threads                            =4                          #	4(垃圾回收)
+innodb_print_all_deadlocks                      =on                         #	off
+innodb_rollback_on_timeout						=on                         #	on
+innodb_lock_wait_timeout                        =20                         #	50
+innodb_spin_wait_delay                          =128                        #	6
+innodb_autoinc_lock_mode                        =2                          #	1
+innodb_io_capacity                              =200                        #   200
+innodb_io_capacity_max                          =2000                       #   2000
+#--------Persistent Optimizer Statistics
+innodb_stats_auto_recalc                        =on                         #   on
+innodb_stats_persistent                         =on                         #	on
+innodb_stats_persistent_sample_pages            =20                         #	20
+
+innodb_change_buffer_max_size                   =25                         #	25
+innodb_flush_neighbors                          =1                          #	1
+#innodb_flush_method                             =                          #
+innodb_doublewrite                              =on                         #	on
+innodb_log_buffer_size                          =128M                       #	16777216(16M)
+innodb_flush_log_at_timeout                     =1                          #	1
+innodb_flush_log_at_trx_commit                  =1                          #	1
+innodb_buffer_pool_size                         =1024M                      #	134217728(128M)
+innodb_buffer_pool_instances                    =4
+#--------innodb scan resistant
+innodb_old_blocks_pct                           =37                         #    37
+innodb_old_blocks_time                          =1000                       #    1000
+#--------innodb read ahead
+innodb_read_ahead_threshold                     =56                         #    56 (0..64)
+innodb_random_read_ahead                        =OFF                        #    OFF
+#--------innodb buffer pool state
+innodb_buffer_pool_dump_at_shutdown             =ON                         #    ON
+innodb_buffer_pool_load_at_startup              =ON                         #    ON
+innodb_flush_method								=O_DIRECT
+
+EOF
+
+}
+
+mycnf
 
 if [ ! -f ./my.cnf ];then
         echo 'file my.cnf not exist'
@@ -104,11 +241,16 @@ if [ ! -f $data_dir/mysql$2/etc/my.cnf ];then
 
    	cp  ${base_dir}/my.cnf $data_dir/mysql$2/etc &&\
 	sed -ri  's/3306/'$2'/g'  $data_dir/mysql$2/etc/my.cnf
-	sed  -ri  '16s/'$2'/'${server_id}'/g'  $data_dir/mysql$2/etc/my.cnf	
+	sed  -ri  '/server_id/s/'$2'/'${server_id}'/g'  $data_dir/mysql$2/etc/my.cnf	
+	echo -e '[mysql]\nno-auto-rehash\nprompt="\\u@\\h [\\d]>"' > /etc/my.cnf
+	rm  -f  my.cnf 
 fi
  
 
-if [ ! -d /usr/local/mysql ];then
+if [ -d /usr/local/mysql ];then
+	 unlink   /usr/local/mysql 
+	 ln -s ${base_dir}   /usr/local/mysql
+else
    	 ln -s ${base_dir}   /usr/local/mysql
 fi
 
@@ -138,8 +280,8 @@ fi
 
 
 # 
-/usr/local/mysql/scripts/mysql_install_db  --user=mysql  --basedir=/usr/local/mysql/ --datadir=$data_dir/mysql$2/data 
-sleep 5
+/usr/local/mysql/scripts/mysql_install_db  --user=mysql  --basedir=/usr/local/mysql/  --datadir=$data_dir/mysql$2/data  &> /dev/null
+
 if [ $? -eq 0 ];then
 	echo "MySQL initialization succeeded"
 else

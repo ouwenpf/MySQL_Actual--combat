@@ -38,7 +38,7 @@ max_prepared_stmt_count             =1048576                        #
 
 ####: for binlog
 binlog_format                       =row                            #	row
-log_bin                             =/data/mysql/mysql3306/logs/mysql-bin                      #	off
+log_bin                             =/data/mysql/mysql3306/logs/mysql-bin/mysql-bin                      #	off
 binlog_rows_query_log_events        =on                             #	off
 log_slave_updates                   =on                             #	off
 expire_logs_days                    =7                              #	0
@@ -46,6 +46,8 @@ binlog_cache_size                   =65536                          #	65536(64k)
 #binlog_checksum                    =none                           #	CRC32
 sync_binlog                         =1                              #	1
 slave-preserve-commit-order         =ON                             #
+#skip_log_bin
+#disable_log_bin
 
 ####: for error-log
 log_error                           =error.log                      #	/usr/local/mysql/data/localhost.localdomain.err
@@ -69,6 +71,7 @@ enforce_gtid_consistency            =on                            #	off
 skip_slave_start                     =1                             #
 master_info_repository               =table                         #	file
 relay_log_info_repository            =table                         #	file
+relay_log                             =/data/mysql/mysql3306/logs/relay-bin/relay-bin
 relay_log_recovery					 =1								#   0
 relay_log_purge						 =1								#   0
 sync_relay_log						 =1								#   10000
@@ -89,7 +92,7 @@ slave_net_timeout					 =15							#	 60
 ####: for write_set
 binlog_transaction_dependency_tracking         =writeset					#  writeset_session
 transaction_write_set_extraction               =XXHASH64					#  XXHASH64
-slave_preserve_commit_order					   =0							#  1
+slave_preserve_commit_order					   =1							#  1
 
 ####: for innodb
 innodb_data_file_path                           =ibdata1:1024M:autoextend    #	ibdata1:12M:autoextend
