@@ -68,10 +68,11 @@ GRANT ALL  on *.* to 'cluster'@'10.0.8.%'  with grant option;
  模式切换:\js   \sql此模式下可以运行sql语句
  3. 创建MySQL InnoDB cluster
  定义变量按照官方提供:         
-var cluster=dba.createCluster('testCluster')创建
+dba.createCluster('testCluster')创建
 cluster.help()查询帮助
-var cluster=dba.getCluster('testCluster')退出后重新进入,加载
+cluster=dba.getCluster('testCluster')退出后重新进入,加载
 cluster.addInstance('cluster@10.0.8.14:3306')主节点加入,其它节点也通过此命令添加
+cluster.status()查询集群的状态
 cluster.rejoinInstance('cluster@10.0.8.14:3306')重新加入
 cluster.removeInstance('cluster@10.0.8.14:3306')移除节点
 cluster.rescan()扫描错误节点,予以删除
@@ -80,6 +81,11 @@ cluster.rescan()扫描错误节点,予以删除
 stop group_replication;
 dba.dropMetadataSchema();  
 reset slave all;
+
+cluster.addInstance('cluster@10.0.8.14:3306')出错ERROR: Cancelled
+Cluster.addInstance: Cancelled (RuntimeError),hots文件需要解析
+reset master ;
+
 
 cluster.status()查询节点状态
 
@@ -91,7 +97,8 @@ cluster.status()查询节点状态
 - MISSING      - 节点已加入集群，但未启动group replication yttrr000
 
 日常使用的几个重要命令 (mysqlsh的JS语法)
-dba.checkInstanceConfiguration('cluster@10.0.8.14:3306')     #检查节点配置实例，用于加入cluster之前
+dba.checkInstanceConfiguration('cluster@10.0.8.14:3306')  
+dba.configureInstance('cluster@10.0.8.14:3306')          #检查节点配置实例，用于加入cluster之前
    
 dba.rebootClusterFromCompleteOutage('myCluster');        #重启 
  
@@ -104,7 +111,7 @@ cluster.checkInstanceState('cluster@10.0.8.14:3306')         #检查cluster里�
  
 cluster.rejoinInstance('cluster@10.0.8.14:3306')             #重新加入节点，我本地测试的时候发现rejoin一直无效，每次是delete后
  
-addcluster.dissolve({force：true})                       #删除集群
+cluster.dissolve({force：true})                       #删除集群
  
 cluster.addInstance('cluster@10.0.8.14:3306')                #增加节点
  
@@ -115,6 +122,14 @@ cluster.removeInstance('cluster@10.0.8.14:3306',{force:true})    #强制删除�
 cluster.dissolve({force:true})                           #解散集群
  
 cluster.describe();                                      #集群描述
+
+
+
+
+"memberState": "OFFLINE",节点状态导致无法删除
+Cluster.removeInstance: There is no quorum to perform the operation (MYSQLSH 51011)
+cluster.forceQuorumUsingPartitionOf('mgr@192.168.100.100:3307')
+
 ```
 
 

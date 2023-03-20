@@ -54,6 +54,7 @@ function_system(){
 	sysctl -w vm.swappiness=5
 	sysctl -w vm.dirty_background_ratio=5
 	sysctl -w vm.dirty_ratio=10
+	sysctl -w vm.swappiness=0
 }
 
 function_package

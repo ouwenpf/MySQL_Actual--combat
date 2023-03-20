@@ -96,43 +96,43 @@ save mysql users to disk;
 
 
 insert into mysql_query_rules (rule_id,active,username,schemaname, client_addr,match_digest,destination_hostgroup,flagIN, flagOUT,log,apply) values(1,1,NULL,NULL,NULL,'.',NULL,0,NULL,1,0);
-insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(1,1,'^SELECT.*FOR UPDATE$',1,1);
-insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(2,1,'^SELECT',2,1);
-insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(3,1,'^show slave status',2,1);
+insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(2,1,'^SELECT.*FOR UPDATE$',1,1);
+insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(3,1,'^SELECT',2,1);
+insert into mysql_query_rules(rule_id,active,match_pattern,destination_hostgroup, apply) VALUES(4,1,'^show slave status',2,1);
 
 
 load mysql query rules to runtime;
 save mysql  query rules to disk;
 
 
-设置开启全日志
+#设置开启全日志
 
 update global_variables set variable_value=1 where
 variable_name='mysql-eventslog_default_log';
-设置为json的日志格式
+#设置为json的日志格式
 
 update global_variables set variable_value=2 where
 variable_name='mysql-eventslog_format';      
-设置日志文件名
+#设置日志文件名
 
 update global_variables set variable_value='query.log' where
 variable_name='mysql-eventslog_filename';
 
 load mysql variables to runtime;
 save mysql variables to disk;
-设置隔离级别
+#设置隔离级别
 set mysql-default_tx_isolation='REPEATBALE READ';
 
 
-设置字符集
+#设置字符集
 set mysql-default_charset='utf8mb4';
 
 load mysql variables to runtime;
 save mysql variables to disk;
 
 
-设置远程管理账户，默认只能是本地
-set admin-admin_credentials = "admin:admin;radmin:radmin"
+#设置远程管理账户，默认只能是本地
+set admin-admin_credentials = "admin:admin;radmin:radmin";
 load admin variables to runtime;
 save admin variables to disk;
 

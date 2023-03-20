@@ -126,8 +126,8 @@ innodb_rollback_on_timeout						=on                         #	on
 innodb_lock_wait_timeout                        =5                         #	50
 innodb_spin_wait_delay                          =128                        #	6
 innodb_autoinc_lock_mode                        =2                          #	1
-innodb_io_capacity                              =200                        #   200
-innodb_io_capacity_max                          =2000                       #   2000
+innodb_io_capacity                              =2000                        #   200
+innodb_io_capacity_max                          =5000                       #   2000
 #--------Persistent Optimizer Statistics
 innodb_stats_auto_recalc                        =on                         #   on
 innodb_stats_persistent                         =on                         #	on
