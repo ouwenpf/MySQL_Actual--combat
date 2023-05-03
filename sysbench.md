@@ -88,6 +88,23 @@ grant all on pressure.* to   'sysbench'@'%' ;
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --threads=10 --mysql_storage_engine=Innodb prewarm
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --mysql_storage_engine=Innodb --threads=10 --time=100  --warmup-time=10 --report-interval=1 --rand-type=uniform run
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure   --tables=10 --table_size=10000 --mysql_storage_engine=Innodb cleanup
+
+
+
+
+
+
+/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua --tables=10 --table-size=1000   --db-ps-mode=disable --db-driver=pgsql --pgsql-host=172.16.0.15  --report-interval=10 --pgsql-port=47001  --pgsql-user=abc --pgsql-password=abc --pgsql-db=postgres --threads=10   --time=300   cleanup 
+
+/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua --tables=10 --table-size=1000   --db-ps-mode=disable --db-driver=pgsql --pgsql-host=172.16.0.15  --report-interval=10 --pgsql-port=47001  --pgsql-user=abc --pgsql-password=abc --pgsql-db=postgres --threads=10   --time=300   prepare
+
+
+ /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua --tables=10 --table-size=1000 --db-ps-mode=disable --db-driver=pgsql --pgsql-host=172.16.0.15  --report-interval=10 --pgsql-port=5401 --pgsql-user=abc --pgsql-password=abc --pgsql-db=postgres --threads=1  --time=300 --rand-type=uniform run
+
+
+
+
+
 相关参数请参考github文档
 ```
 
