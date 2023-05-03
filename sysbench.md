@@ -9,7 +9,7 @@ yum -y install make automake libtool pkgconfig libaio-devel mariadb-devel openss
 git clone https://github.com/akopytov/sysbench.git
 ./autogen.sh
 # Add --with-pgsql to build with PostgreSQL support
-./configure
+./configure  --with-pgsql
 make -j
 make install
 
