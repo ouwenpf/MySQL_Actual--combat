@@ -10,6 +10,10 @@ git clone https://github.com/akopytov/sysbench.git
 ./autogen.sh
 # Add --with-pgsql to build with PostgreSQL support
 ./configure  --with-pgsql
+#如果出现报错drv_mysql.c:420:24
+#./configure --with-mysql-includes=/usr/local/mysql/include/    --with-pgsql
+
+
 make -j
 make install
 
@@ -178,7 +182,7 @@ vim groupshard.lua
 ```
 ## sysbench其它压测功能
 [其它测试](https://www.iorisun.com/archives/705//)
-https://www.cnblogs.com/gonghr/p/14956461.html
+https://www.cnblogs.com/ivictor/p/16955580.html
 
 
 
