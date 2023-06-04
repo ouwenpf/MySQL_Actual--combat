@@ -42,7 +42,7 @@ docker network create --subnet=10.0.0.0/16 mysqlnet
 docker  
 		images:列出镜像
 		build:构建镜像来自dockerfile
-		inspect：显示一个或者多个镜像的详细信息
+		inspect：显示一个或者多个镜像的详细信息  docker inspect 
 		pull:从镜像仓库拉取镜像
 		push:推送一个镜像到仓库
 		rmi:移除一个或多个镜像
