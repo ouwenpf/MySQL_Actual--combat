@@ -47,9 +47,17 @@ docker
 		push:推送一个镜像到仓库
 		rmi:移除一个或多个镜像
 		prune:移除未使用的镜像,没有被标记或被任何容器引用
+<<<<<<< HEAD
 		tag:创建一个引用镜像标记的镜像
 		save:保存一个或多个重定向到tar归档文件   docker save  centos_base:v6 > 新镜像名称.tar
+=======
+		tag:创建一个引用镜像标记的镜像  docker tag 7d0b68af5a06 mysql/centos7:latest
+		save:保存一个或多个重定向到tar归档文件   docker save  镜像名称 > 新镜像名称.tar
+>>>>>>> fee5ff737456b8e86a2d7983b65eb49a1ff99014
 		load:加载镜像输入来自tar归档文件   docker load < 镜像名称.tar
+		     docker network create --subnet=172.16.0.1/16 mysqlnet
+
+
 ```
 
 - 创建容器常用选项

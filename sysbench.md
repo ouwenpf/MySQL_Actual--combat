@@ -10,6 +10,13 @@ git clone https://github.com/akopytov/sysbench.git
 ./autogen.sh
 # Add --with-pgsql to build with PostgreSQL support
 ./configure  --with-pgsql
+<<<<<<< HEAD
+=======
+#如果出现报错drv_mysql.c:420:24
+#./configure --with-mysql-includes=/usr/local/mysql/include/    --with-pgsql
+
+
+>>>>>>> fee5ff737456b8e86a2d7983b65eb49a1ff99014
 make -j
 make install
 
@@ -88,6 +95,23 @@ grant all on pressure.* to   'sysbench'@'%' ;
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --threads=10 --mysql_storage_engine=Innodb prewarm
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure --tables=10 --table_size=10000 --mysql_storage_engine=Innodb --threads=10 --time=100  --warmup-time=10 --report-interval=1 --rand-type=uniform run
 /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua    --mysql-host=10.0.8.14 --mysql-port=3306 --mysql-user=sysbench --mysql-password=123456 --mysql-db=pressure   --tables=10 --table_size=10000 --mysql_storage_engine=Innodb cleanup
+
+
+
+
+
+
+/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua --tables=10 --table-size=1000   --db-ps-mode=disable --db-driver=pgsql --pgsql-host=172.16.0.15  --report-interval=10 --pgsql-port=47001  --pgsql-user=abc --pgsql-password=abc --pgsql-db=postgres --threads=10   --time=300   cleanup 
+
+/usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua --tables=10 --table-size=1000   --db-ps-mode=disable --db-driver=pgsql --pgsql-host=172.16.0.15  --report-interval=10 --pgsql-port=47001  --pgsql-user=abc --pgsql-password=abc --pgsql-db=postgres --threads=10   --time=300   prepare
+
+
+ /usr/local/bin/sysbench  /usr/local/share/sysbench/oltp_read_write.lua --tables=10 --table-size=1000 --db-ps-mode=disable --db-driver=pgsql --pgsql-host=172.16.0.15  --report-interval=10 --pgsql-port=5401 --pgsql-user=abc --pgsql-password=abc --pgsql-db=postgres --threads=1  --time=300 --rand-type=uniform run
+
+
+
+
+
 相关参数请参考github文档
 ```
 
@@ -161,7 +185,7 @@ vim groupshard.lua
 ```
 ## sysbench其它压测功能
 [其它测试](https://www.iorisun.com/archives/705//)
-https://www.cnblogs.com/gonghr/p/14956461.html
+https://www.cnblogs.com/ivictor/p/16955580.html
 
 
 
