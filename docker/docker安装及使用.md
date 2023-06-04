@@ -42,13 +42,18 @@ docker network create --subnet=10.0.0.0/16 mysqlnet
 docker  
 		images:列出镜像
 		build:构建镜像来自dockerfile
-		inspect：显示一个或者多个镜像的详细信息  docker inspect 
+		inspect：显示一个或者多个镜像的详细信息
 		pull:从镜像仓库拉取镜像
 		push:推送一个镜像到仓库
 		rmi:移除一个或多个镜像
 		prune:移除未使用的镜像,没有被标记或被任何容器引用
+<<<<<<< HEAD
+		tag:创建一个引用镜像标记的镜像
+		save:保存一个或多个重定向到tar归档文件   docker save  centos_base:v6 > 新镜像名称.tar
+=======
 		tag:创建一个引用镜像标记的镜像  docker tag 7d0b68af5a06 mysql/centos7:latest
 		save:保存一个或多个重定向到tar归档文件   docker save  镜像名称 > 新镜像名称.tar
+>>>>>>> fee5ff737456b8e86a2d7983b65eb49a1ff99014
 		load:加载镜像输入来自tar归档文件   docker load < 镜像名称.tar
 		     docker network create --subnet=172.16.0.1/16 mysqlnet
 
@@ -84,7 +89,7 @@ docker [container]
 		ls:列出容器
 		inspect:显示一个或多个容器的信息信息
 		exec:在运行容器中执行命令
-		commit:创建一个新镜像来自容器docker commit ab87d918e1f6(容器名称)   centos7_base:v2 (打包镜像文件名称)
+		commit:创建一个新镜像来自容器docker commit ab87d918e1f6(容器名称)   centos7_base:v6 (打包镜像文件名称)
 		cp:拷贝文件/文件夹到容器
 		logs:获取容器的日志
 		port:列出指定容器隐射的端口
