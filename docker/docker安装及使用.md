@@ -48,7 +48,7 @@ docker
 		rmi:移除一个或多个镜像
 		prune:移除未使用的镜像,没有被标记或被任何容器引用
 		tag:创建一个引用镜像标记的镜像
-		save:保存一个或多个重定向到tar归档文件   docker save  镜像名称 > 新镜像名称.tar
+		save:保存一个或多个重定向到tar归档文件   docker save  centos_base:v6 > 新镜像名称.tar
 		load:加载镜像输入来自tar归档文件   docker load < 镜像名称.tar
 ```
 
