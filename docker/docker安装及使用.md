@@ -89,7 +89,7 @@ docker [container]
 		ls:列出容器
 		inspect:显示一个或多个容器的信息信息
 		exec:在运行容器中执行命令
-		commit:创建一个新镜像来自容器docker commit ab87d918e1f6(容器名称)   centos7_base:v2 (打包镜像文件名称)
+		commit:创建一个新镜像来自容器docker commit ab87d918e1f6(容器名称)   centos7_base:v6 (打包镜像文件名称)
 		cp:拷贝文件/文件夹到容器
 		logs:获取容器的日志
 		port:列出指定容器隐射的端口
