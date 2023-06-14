@@ -55,6 +55,12 @@ docker run -d -v /data/tools:/tools  -v /application:/application -v  /etc/resol
 docker run -d -v /data/tools:/tools  -v /application:/application -v  /etc/resolv.conf:/etc/resolv.conf -p55711:22 --net mysqlnet --ip 192.168.7.11 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name mysq57-1 -h note57-1 mysql57:v39  /usr/sbin/init
 docker run -d -v /data/tools:/tools  -v /application:/application -v  /etc/resolv.conf:/etc/resolv.conf -p55711:22 --net mysqlnet --ip 192.168.6.11 --cap-add=SYS_PTRACE --cap-add=NET_ADMIN  --privileged=true --name mysq56-1 -h note56-1 mysql56:v51  /usr/sbin/init
 
+
+# 使用host网络模式
+sudo  docker run -itd  --network host  --name mysql8 -e MYSQL_ROOT_PASSWORD=123456   mysql:8
+
+
+
 进入容器
 docker exec -it  mysq80-1  /bin/bash
 
