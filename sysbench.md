@@ -116,15 +116,23 @@ grant all on pressure.* to   'sysbench'@'%' ;
 ```
 
 
-
-
-
-
-
-
 ## 分析报表
 
 ```
+[ 6s ] thds: 4 tps: 334.99 qps: 6712.77 (r/w/o: 4698.84/929.97/1083.96) lat (ms,95%): 19.65 err/s: 0.00 reconn/s: 0.00
+
+[ 6s ]：表示当前已经压测6s。
+thds: 4：表示4个线程并发压测。
+tps: 334.99：表示在report-interval时间间隔内的每秒事务数。
+qps: 6712.77：表示在report-interval时间间隔内的每秒查询数。
+(r/w/o: 4698.84/929.97/1083.96)：表示在report-interval时间间隔内的每秒读/写/其他请求数，用于补充说明qps。
+lat (ms,95%):19.65：表示在report-interval时间间隔内的请求95%的延迟时间在19.65ms以下。
+err/s: 0.00：表示在report-interval时间间隔内的每秒失败请求数。
+reconn/s: 0.00：表示在report-interval时间间隔内的每秒重连接数。
+
+
+
+
 SQL statistics:
     queries performed:
         read:                            8726242//总select数量
@@ -151,6 +159,18 @@ Latency (ms):
 Threads fairness:
     events (avg/stddev):           2435.5938/20.06
     execution time (avg/stddev):   3601.0751/0.19
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 ```
 

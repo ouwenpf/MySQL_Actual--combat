@@ -40,7 +40,7 @@ docker network create --subnet=10.0.0.0/16 mysqlnet
 
 ```
 docker  
-		images:列出镜像
+		images:列出镜像  tar --numeric-owner --exclude=/proc --exclude=/sys -cvf centos7.tar /
 		build:构建镜像来自dockerfile
 		inspect：显示一个或者多个镜像的详细信息
 		pull:从镜像仓库拉取镜像
