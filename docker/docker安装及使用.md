@@ -50,7 +50,7 @@ docker
 		tag:创建一个引用镜像标记的镜像
 		save:保存一个或多个重定向到tar归档文件   docker save  centos_base:v6 > 新镜像名称.tar
 		tag:创建一个引用镜像标记的镜像  docker tag 7d0b68af5a06 mysql/centos7:latest
-		save:保存一个或多个重定向到tar归档文件    save  -o  centos_base_v6.tar  centos_base:v6 
+		save:保存一个或多个重定向到tar归档文件 docker   save  -o  centos_base_v6.tar  centos_base:v6 
 		load:加载镜像输入来自tar归档文件   docker load < 镜像名称.tar  或者   docker load -i 镜像名称.tar 
 		     docker network create --subnet=172.16.0.1/16 mysqlnet
 		docker

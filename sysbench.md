@@ -2,6 +2,7 @@
 [sysbench下载](https://github.com/akopytov/sysbench)   
 [sysbench源码](https://github.com/akopytov/sysbench/releases)
 [参考资料](https://www.cnblogs.com/chenmh/p/5866058.html)
+[参考资料](https://www.cnblogs.com/ivictor/p/16955580.html)
 ## 安装
 ```
 编译安装：
