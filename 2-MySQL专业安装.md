@@ -43,7 +43,7 @@ fstab中设置如下设,xfs文件系统
 ```
 deadline(机械硬盘)
 noop(ssd磁盘)
-echo deadline|noop >/sys/block/sda/queue/scheduler
+echo deadline|noop >/sys/block/sd*/queue/scheduler
 ```
 - 文件系统
 ```

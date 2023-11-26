@@ -13,7 +13,7 @@ yum install -y yum-utils   device-mapper-persistent-data lvm2
 yum install -y docker-ce docker-ce-cli containerd.io
 
 之前安装过的可以先卸载
-yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
+yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine docker-ce docker-ce-cli containerd.io
 rm -fr /var/lib/docker 默认的镜像存放点，其它如果改动过请到相应的地方进行删除
        
 配置镜像仓库
@@ -79,7 +79,7 @@ docker run
 		--network:连接容器到一个网络
 		--link list:添加连接到另一个容器
 		--mount:挂载宿主机分区到容器
-		-v,--volume:挂载宿主机目录到容器
+		-v,--volume:挂载宿主机目录到容器:源文件/目录(宿主机):容器中的文件或目录
 		--restart string:容器退出时重启策略,默认no,[always|on-failure]
 		--add-host list:添加其他主机到容器中/ect/hosts
 		-m,memory:容器可以使用的最大内存
