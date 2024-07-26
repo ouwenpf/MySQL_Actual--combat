@@ -35,6 +35,7 @@ docker network create --subnet=10.0.0.0/16 mysqlnet
 
 ```
 [镜像地址](https://hub.docker.com/)
+[一键安装脚本](https://linuxmirrors.cn/other/)
 
 - 镜像管理命令 
 

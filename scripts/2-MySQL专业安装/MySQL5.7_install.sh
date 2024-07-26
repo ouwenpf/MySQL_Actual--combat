@@ -77,7 +77,7 @@ general_log                         =off                            #   off
 general_log_file                    =general.log                    #   hostname.log
 
 ####: for slow query log
-slow_query_log                      =on                             #    off
+slow_query_log                      =off                             #    off
 slow_query_log_file                 =slow.log                       #    hostname.log
 #log_queries_not_using_indexes       =on                            #    off
 long_query_time                     =1.000000                       #    10.000000
@@ -232,7 +232,8 @@ if [ `ping 8.8.8.8 -c 5 | grep "min/avg/max" -c` = '1' ]; then
 	yum install -y wget 
         wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo  
         wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  
-        yum install -y libaio libaio-devel psmisc sysstat sysvinit-tools-2.88-14.dsf.el7.x86_64 numactl-libs man bash-completion man-pages-zh-CN.noarch iptables-services lrzsz tree screen telnet dosunix nmap htop openssl openssh openssl-devel bind-utils iotop nc dstat yum-utils*  psacct
+        yum install -y libaio libaio-devel psmisc sysstat sysvinit-tools-2.88-14.dsf.el7.x86_64 numactl-libs man bash-completion man-pages-zh-CN.noarch iptables-services lrzsz tree screen telnet 
+         nmap htop openssl openssh openssl-devel bind-utils iotop nc dstat yum-utils*  psacct
 else
     	echo "The network connection failed and the installation was terminated!"
     	exit

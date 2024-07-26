@@ -84,7 +84,7 @@ general_log                         =off                            #   off
 general_log_file                    =general.log                    #   hostname.log
 
 ####: for slow query log
-slow_query_log                      =on                             #    off
+slow_query_log                      =off                             #    off
 slow_query_log_file                 =slow.log                       #    hostname.log
 long_query_time                     =0.01                      #    10.000000
 log_queries_not_using_indexes 		=on								#    off
