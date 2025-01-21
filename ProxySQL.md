@@ -26,6 +26,11 @@
 ```
 ProxySQL默认管理端口6032，默认需要127.0.0.1来进入，进入方式和连接MySQL方式一致
 mysql -uadmin -h127.0.0.1 -padmin -P6032
+如果需要管理端口远程访问需要重新设置用户:
+set admin-admin_credentials='admin:admin;myuser:myuser' ;
+SAVE MYSQL VARIABLES TO DISK;
+
+
 ```
 
 ###核心配置表
