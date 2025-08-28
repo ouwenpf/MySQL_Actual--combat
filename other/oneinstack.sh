@@ -2,7 +2,7 @@ HISTSIZE=10000
 #PS1="\[\e[37;40m\][\[\e[32;40m\]\u\[\e[37;40m\]@\h \[\e[35;40m\]\W\[\e[0m\]]\\$ "
 HISTTIMEFORMAT="%F %T $(whoami) "
 HISTCONTROL="ignoreboth"
-alias l='ls -AFhltr'
+alias ll='ls -Fhltr'
 alias lh='l | head'
 alias vi='vim'
 
